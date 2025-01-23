@@ -347,6 +347,9 @@ class Trainer_MCVGAN():
               f"num_filters : {self.discriminator.num_filters}\n"
         )
 
+        train_fid_list = []
+        val_fid_list = []
+
         for epoch in range(1, self.epochs + 1):
             self.generator.train()
             self.discriminator.train()
@@ -407,7 +410,9 @@ class Trainer_MCVGAN():
             average_extra_loss = epoch_extra_loss / len(self.train_loader)
 
             train_FID = self.get_fid_score(self.generator, self.train_loader, self.device)
+            train_fid_list.append(train_FID)
             val_FID = self.get_fid_score(self.generator, self.validation_loader, self.device)
+            val_fid_list.append(val_FID)
 
             # 记录日志
             with open("pretrain_log.txt", "a") as f:
@@ -425,6 +430,15 @@ class Trainer_MCVGAN():
             f.write(f"Final Val FID: {final_FID:.4f}\n")
 
         print(f"Final Val FID: {final_FID:.4f}")
+
+        # 绘制 FID 分数曲线
+        x = np.arange(self.epochs)
+        plt.plot(x, train_fid_list, label='train', markevery=2)
+        plt.plot(x, val_fid_list, label='val', markevery=2)
+        plt.xlabel("epochs")
+        plt.ylabel("FID")
+        plt.legend(loc='lower right')
+        plt.show()
 
 
     def save_generator(self):

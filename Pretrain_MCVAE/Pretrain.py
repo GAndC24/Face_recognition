@@ -12,7 +12,7 @@ L = 18
 Pc = 0.8
 Pm = 0.05
 train_mini_epochs = 20
-epochs = 500
+epochs = 1000
 
 if __name__ == '__main__':
     # 初始化 Hyperparameter optimizer

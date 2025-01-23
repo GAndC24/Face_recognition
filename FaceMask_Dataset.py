@@ -81,27 +81,3 @@ class FaceMask_Dataset(Dataset):
 
         return img, label
 
-class Temp_dataset(Dataset):
-    '''
-    临时数据集，用于获取 generator 的 FID 分数
-    '''
-    def __init__(self, images):
-        '''
-        初始化数据集
-
-        Args:
-            :param images: 图像数据, [N, C, H, W]
-        '''
-        self.images = images
-
-    def __len__(self):
-        return self.images.size(0)
-
-    def __getitem__(self, idx):
-        '''
-        获取数据集中的数据
-        Args:
-            :param idx:  数据索引
-            :return:  图像数据
-        '''
-        return self.images[idx]

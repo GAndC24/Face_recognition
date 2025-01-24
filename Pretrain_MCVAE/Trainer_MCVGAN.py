@@ -144,6 +144,13 @@ class Trainer_MCVGAN():
         :param k: 判别器每 k step 训练一次
         :return: 最终 FID 分数
         '''
+        # 记录日志
+        with open("pretrain_log.txt", "a") as f:
+            current_time = datetime.now()
+            f.write(f"\nIndex: {index + 1}\n"
+                    f"\n--------------------Start train-------------------\n"
+                    f"Start time: {current_time}\n\n"
+            )
         print(
             f"\nIndex: {index + 1}\n"
             f"img_size : {self.img_size}\n"
@@ -166,6 +173,7 @@ class Trainer_MCVGAN():
             f"filter_size : {self.discriminator.filter_size}\n"
             f"num_filters : {self.discriminator.num_filters}\n"
         )
+
         for epoch in range(1, self.epochs + 1):
             self.generator.train()
             self.discriminator.train()
@@ -218,7 +226,7 @@ class Trainer_MCVGAN():
                 self.lr_warmup_scheduler_G.step()
                 self.lr_decay_scheduler_G.step()
 
-                # print(f"Epoch: {epoch}, Step: {step + 1}, G Loss: {g_loss.item():.4f}, D Loss: {d_loss.item():.4f}, mask loss: {mask_loss.item():.4f}, extra loss: {extra_loss.item():.4f}")
+                print(f"Epoch: {epoch}, Step: {step + 1}, G Loss: {g_loss.item():.4f}, D Loss: {d_loss.item():.4f}, mask loss: {mask_loss.item():.4f}, extra loss: {extra_loss.item():.4f}")
 
             average_G_loss = epoch_g_loss / len(self.mini_train_loader)
             average_D_loss = epoch_d_loss / len(self.mini_train_loader)
@@ -228,6 +236,12 @@ class Trainer_MCVGAN():
             train_FID = self.get_fid_score(self.generator, self.mini_train_loader, self.device)
             val_FID = self.get_fid_score(self.generator, self.mini_validation_loader, self.device)
 
+            # 记录日志
+            with open("pretrain_log.txt", "a") as f:
+                f.write(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
+                  f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f\n}"
+                )
+
             print(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
                   f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}")
 
@@ -235,9 +249,12 @@ class Trainer_MCVGAN():
 
         print(f"Final FID: {final_FID:.4f}")
 
-        # 将结果写入到文件中进行记录
+        # 记录日志
         with open("pretrain_log.txt", "a") as f:
-            f.write(f"\nIndex: {index + 1}\n"
+            current_time = datetime.now()
+            f.write(f"\nresult:\n"
+                    f"Final FID: {final_FID:.4f}\n"
+                    f"\nHyperparameters: \n"
                     f"img_size : {self.img_size}\n"
                     f"lr : {self.lr}\n"
                     f"weight_decay : {self.weight_decay}\n"
@@ -257,7 +274,8 @@ class Trainer_MCVGAN():
                     f"decoder_num_heads : {self.generator.decoder_num_heads}\n"
                     f"filter_size : {self.discriminator.filter_size}\n"
                     f"num_filters : {self.discriminator.num_filters}\n"
-                    f"Final FID: {final_FID:.4f}\n"
+                    f"\nEnd time: {current_time}\n"
+                    f"--------------------End--------------------\n"
             )
 
         return final_FID

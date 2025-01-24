@@ -11,7 +11,7 @@ select_ratio = 0.8
 L = 18
 Pc = 0.8
 Pm = 0.05
-train_mini_epochs = 20
+train_mini_epochs = 15
 epochs = 1000
 
 if __name__ == '__main__':

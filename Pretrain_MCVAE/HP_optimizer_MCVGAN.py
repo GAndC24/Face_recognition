@@ -121,6 +121,8 @@ class HP_optimizer_MCVGAN():
                 filter_size = int(self.population[i, 16])
                 num_filters = int(self.population[i, 17])
 
+                # 清除显存缓存
+                torch.cuda.empty_cache()
                 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')       # 使用 cuda
                 generator = Masked_ConViT_GAN_Generator(
                     img_size=self.img_size,

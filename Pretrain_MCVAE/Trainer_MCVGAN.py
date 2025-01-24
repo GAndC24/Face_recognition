@@ -181,6 +181,7 @@ class Trainer_MCVGAN():
             epoch_d_loss = 0.0
             epoch_mask_loss = 0.0
             epoch_extra_loss = 0.0
+            count_train_d = 0
 
             for step, (X, y) in enumerate(self.mini_train_loader):
                 X, y = X.to(self.device), y.to(self.device)
@@ -211,6 +212,8 @@ class Trainer_MCVGAN():
                     self.lr_warmup_scheduler_D.step()
                     self.lr_decay_scheduler_D.step()
 
+                    count_train_d += 1
+
                 # 训练生成器
                 mask_loss, pred, _ = self.generator(X)
                 fake_images = self.generator.unpatchify(pred)
@@ -229,21 +232,18 @@ class Trainer_MCVGAN():
                 print(f"Epoch: {epoch}, Step: {step + 1}, G Loss: {g_loss.item():.4f}, D Loss: {d_loss.item():.4f}, mask loss: {mask_loss.item():.4f}, extra loss: {extra_loss.item():.4f}")
 
             average_G_loss = epoch_g_loss / len(self.mini_train_loader)
-            average_D_loss = epoch_d_loss / len(self.mini_train_loader)
+            average_D_loss = epoch_d_loss / count_train_d
             average_mask_loss = epoch_mask_loss / len(self.mini_train_loader)
             average_extra_loss = epoch_extra_loss / len(self.mini_train_loader)
-
-            train_FID = self.get_fid_score(self.generator, self.mini_train_loader, self.device)
-            val_FID = self.get_fid_score(self.generator, self.mini_validation_loader, self.device)
 
             # 记录日志
             with open("pretrain_log.txt", "a") as f:
                 f.write(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                  f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f\n}"
+                  f"D Loss: {average_D_loss:.4f}\n"
                 )
 
             print(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                  f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}")
+                  f"D Loss: {average_D_loss:.4f}")
 
         final_FID = self.get_fid_score(self.generator, self.mini_validation_loader, self.device)     # 最终 FID 分数
 

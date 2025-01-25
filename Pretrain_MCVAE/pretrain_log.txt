@@ -1,0 +1,314 @@
+--------------------Start Hyperparameter optimize--------------------
+Start Time : 2025-01-25 17:01:33.012314
+
+Generation: 1
+Start Time : 2025-01-25 17:01:33.012314
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-01-25 17:01:34.061155
+
+Epoch: 1, G Loss: 2.9730(Mask Loss: 2.2152, Extra Loss: 1.5156), D Loss: 2.5365
+Epoch: 2, G Loss: 1.6561(Mask Loss: 1.3338, Extra Loss: 0.6445), D Loss: 1.5980
+Epoch: 3, G Loss: 1.5022(Mask Loss: 1.1594, Extra Loss: 0.6856), D Loss: 1.4819
+Epoch: 4, G Loss: 1.4369(Mask Loss: 1.0815, Extra Loss: 0.7106), D Loss: 1.4013
+Epoch: 5, G Loss: 1.4048(Mask Loss: 1.0547, Extra Loss: 0.7001), D Loss: 1.4110
+Epoch: 6, G Loss: 1.4017(Mask Loss: 1.0355, Extra Loss: 0.7325), D Loss: 1.3797
+Epoch: 7, G Loss: 1.3909(Mask Loss: 1.0262, Extra Loss: 0.7296), D Loss: 1.3920
+Epoch: 8, G Loss: 1.3670(Mask Loss: 1.0012, Extra Loss: 0.7316), D Loss: 1.4017
+Epoch: 9, G Loss: 1.3764(Mask Loss: 1.0005, Extra Loss: 0.7518), D Loss: 1.4083
+Epoch: 10, G Loss: 1.3522(Mask Loss: 0.9857, Extra Loss: 0.7331), D Loss: 1.4199
+Epoch: 11, G Loss: 1.3591(Mask Loss: 0.9782, Extra Loss: 0.7617), D Loss: 1.3822
+Epoch: 12, G Loss: 1.3625(Mask Loss: 0.9976, Extra Loss: 0.7298), D Loss: 1.4158
+Epoch: 13, G Loss: 1.3722(Mask Loss: 0.9941, Extra Loss: 0.7561), D Loss: 1.4311
+Epoch: 14, G Loss: 1.3853(Mask Loss: 0.9844, Extra Loss: 0.8018), D Loss: 1.3491
+Epoch: 15, G Loss: 1.4027(Mask Loss: 1.0074, Extra Loss: 0.7905), D Loss: 1.4055
+
+result:
+Final FID: 190.5824
+
+Hyperparameters: 
+img_size : 128
+lr : 0.000467673149248499
+weight_decay : 0.0004336742727428219
+warmup_proportion : 0.0009600722842234063
+batch_size : 16
+embed_dim : 256
+depth : 23
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.5
+attn_drop_rate : 0.3
+drop_path_rate : 0.3
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 768
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 5
+num_filters : 32
+
+End time: 2025-01-25 17:11:34.388684
+--------------------End--------------------
+
+Index: 2
+
+--------------------Start train-------------------
+Start time: 2025-01-25 17:11:34.902587
+
+Epoch: 1, G Loss: 2.4715(Mask Loss: 1.8176, Extra Loss: 1.3079), D Loss: 2.5962
+Epoch: 2, G Loss: 1.4972(Mask Loss: 1.1644, Extra Loss: 0.6656), D Loss: 1.4820
+Epoch: 3, G Loss: 1.3860(Mask Loss: 1.0387, Extra Loss: 0.6946), D Loss: 1.4250
+Epoch: 4, G Loss: 1.3030(Mask Loss: 0.9654, Extra Loss: 0.6753), D Loss: 1.4798
+Epoch: 5, G Loss: 1.2636(Mask Loss: 0.9172, Extra Loss: 0.6926), D Loss: 1.4259
+Epoch: 6, G Loss: 1.2410(Mask Loss: 0.9006, Extra Loss: 0.6809), D Loss: 1.4241
+Epoch: 7, G Loss: 1.2182(Mask Loss: 0.8658, Extra Loss: 0.7049), D Loss: 1.4363
+Epoch: 8, G Loss: 1.1833(Mask Loss: 0.8362, Extra Loss: 0.6943), D Loss: 1.3887
+Epoch: 9, G Loss: 1.1681(Mask Loss: 0.8129, Extra Loss: 0.7103), D Loss: 1.3995
+Epoch: 10, G Loss: 1.1656(Mask Loss: 0.8043, Extra Loss: 0.7226), D Loss: 1.3565
+Epoch: 11, G Loss: 1.1499(Mask Loss: 0.7945, Extra Loss: 0.7107), D Loss: 1.4076
+Epoch: 12, G Loss: 1.1250(Mask Loss: 0.7664, Extra Loss: 0.7172), D Loss: 1.3925
+Epoch: 13, G Loss: 1.1304(Mask Loss: 0.7630, Extra Loss: 0.7348), D Loss: 1.3797
+Epoch: 14, G Loss: 1.0959(Mask Loss: 0.7465, Extra Loss: 0.6989), D Loss: 1.3948
+Epoch: 15, G Loss: 1.0822(Mask Loss: 0.7279, Extra Loss: 0.7085), D Loss: 1.4071
+
+result:
+Final FID: 166.4149
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0005269755618682808
+weight_decay : 0.00024799212618234056
+warmup_proportion : 0.005866545794252768
+batch_size : 16
+embed_dim : 256
+depth : 21
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.1
+attn_drop_rate : 0.2
+drop_path_rate : 0.1
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 32
+
+End time: 2025-01-25 17:21:16.733444
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-01-25 17:21:18.730928
+
+Epoch: 1, G Loss: 2.9579(Mask Loss: 2.1621, Extra Loss: 1.5917), D Loss: 0.5903
+Epoch: 2, G Loss: 3.2673(Mask Loss: 2.2129, Extra Loss: 2.1088), D Loss: 0.4886
+Epoch: 3, G Loss: 3.4094(Mask Loss: 2.2322, Extra Loss: 2.3546), D Loss: 0.5309
+Epoch: 4, G Loss: 3.3643(Mask Loss: 2.2131, Extra Loss: 2.3022), D Loss: 0.5701
+Epoch: 5, G Loss: 3.5464(Mask Loss: 2.2199, Extra Loss: 2.6529), D Loss: 0.5161
+Epoch: 6, G Loss: 3.5525(Mask Loss: 2.1992, Extra Loss: 2.7064), D Loss: 0.4760
+Epoch: 7, G Loss: 3.5114(Mask Loss: 2.1640, Extra Loss: 2.6948), D Loss: 0.3765
+Epoch: 8, G Loss: 3.5042(Mask Loss: 2.0208, Extra Loss: 2.9668), D Loss: 0.3752
+Epoch: 9, G Loss: 3.1644(Mask Loss: 1.7969, Extra Loss: 2.7351), D Loss: 0.4104
+Epoch: 10, G Loss: 2.9866(Mask Loss: 1.7203, Extra Loss: 2.5327), D Loss: 0.4267
+Epoch: 11, G Loss: 3.1118(Mask Loss: 1.7318, Extra Loss: 2.7601), D Loss: 0.4382
+Epoch: 12, G Loss: 3.2061(Mask Loss: 1.7074, Extra Loss: 2.9973), D Loss: 0.3564
+Epoch: 13, G Loss: 3.2053(Mask Loss: 1.7455, Extra Loss: 2.9196), D Loss: 0.5046
+Epoch: 14, G Loss: 3.1960(Mask Loss: 1.7292, Extra Loss: 2.9337), D Loss: 0.5321
+Epoch: 15, G Loss: 3.0966(Mask Loss: 1.6670, Extra Loss: 2.8592), D Loss: 0.6137
+
+result:
+Final FID: 254.4037
+
+Hyperparameters: 
+img_size : 128
+lr : 1.7241584704417533e-05
+weight_decay : 0.0009581380563232535
+warmup_proportion : 0.004962993295100949
+batch_size : 32
+embed_dim : 1024
+depth : 10
+num_heads : 16
+mlp_ratio : 8.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.1
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 5
+num_filters : 64
+
+End time: 2025-01-25 17:28:57.361671
+--------------------End--------------------
+
+Index: 4
+
+--------------------Start train-------------------
+Start time: 2025-01-25 17:28:59.022549
+
+Epoch: 1, G Loss: 3.3998(Mask Loss: 2.3337, Extra Loss: 2.1322), D Loss: 3.3163
+Epoch: 2, G Loss: 2.0606(Mask Loss: 1.7071, Extra Loss: 0.7071), D Loss: 2.8513
+Epoch: 3, G Loss: 2.6869(Mask Loss: 1.9699, Extra Loss: 1.4339), D Loss: 1.0551
+Epoch: 4, G Loss: 3.4027(Mask Loss: 2.2177, Extra Loss: 2.3698), D Loss: 0.9354
+Epoch: 5, G Loss: 3.3496(Mask Loss: 2.2409, Extra Loss: 2.2174), D Loss: 1.2855
+Epoch: 6, G Loss: 3.2115(Mask Loss: 2.1595, Extra Loss: 2.1041), D Loss: 1.8494
+Epoch: 7, G Loss: 2.1309(Mask Loss: 1.6010, Extra Loss: 1.0599), D Loss: 1.9298
+Epoch: 8, G Loss: 2.0385(Mask Loss: 1.5503, Extra Loss: 0.9765), D Loss: 1.4532
+Epoch: 9, G Loss: 2.2169(Mask Loss: 1.6594, Extra Loss: 1.1150), D Loss: 1.4065
+Epoch: 10, G Loss: 2.4143(Mask Loss: 1.7531, Extra Loss: 1.3223), D Loss: 1.7014
+Epoch: 11, G Loss: 2.0095(Mask Loss: 1.5489, Extra Loss: 0.9212), D Loss: 1.8436
+Epoch: 12, G Loss: 1.8542(Mask Loss: 1.4533, Extra Loss: 0.8017), D Loss: 1.7461
+Epoch: 13, G Loss: 1.9018(Mask Loss: 1.4415, Extra Loss: 0.9205), D Loss: 1.6351
+Epoch: 14, G Loss: 2.0076(Mask Loss: 1.6101, Extra Loss: 0.7949), D Loss: 2.2799
+Epoch: 15, G Loss: 1.6548(Mask Loss: 1.2970, Extra Loss: 0.7157), D Loss: 2.0583
+
+result:
+Final FID: 235.2347
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0004714450245850133
+weight_decay : 2.8533522788014697e-06
+warmup_proportion : 0.0043226069184707505
+batch_size : 32
+embed_dim : 768
+depth : 25
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 1.5
+decoder_embed_dim : 768
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-01-25 17:36:25.879774
+--------------------End--------------------
+
+Index: 5
+
+--------------------Start train-------------------
+Start time: 2025-01-25 17:36:33.171332
+
+Epoch: 1, G Loss: 5.1359(Mask Loss: 2.4078, Extra Loss: 5.4561), D Loss: 1.6852
+Epoch: 2, G Loss: 4.5748(Mask Loss: 2.3847, Extra Loss: 4.3802), D Loss: 0.9988
+Epoch: 3, G Loss: 5.8241(Mask Loss: 2.4162, Extra Loss: 6.8158), D Loss: 0.2222
+Epoch: 4, G Loss: 6.6412(Mask Loss: 2.3493, Extra Loss: 8.5840), D Loss: 0.1399
+Epoch: 5, G Loss: 6.7300(Mask Loss: 2.1519, Extra Loss: 9.1562), D Loss: 0.0196
+Epoch: 6, G Loss: 6.5536(Mask Loss: 2.1517, Extra Loss: 8.8039), D Loss: 0.0042
+Epoch: 7, G Loss: 6.4723(Mask Loss: 2.1625, Extra Loss: 8.6197), D Loss: 0.0058
+Epoch: 8, G Loss: 6.8225(Mask Loss: 2.2773, Extra Loss: 9.0903), D Loss: 0.0106
+Epoch: 9, G Loss: 7.1207(Mask Loss: 2.0607, Extra Loss: 10.1199), D Loss: 0.0081
+Epoch: 10, G Loss: 7.0122(Mask Loss: 2.0478, Extra Loss: 9.9287), D Loss: 0.0074
+Epoch: 11, G Loss: 6.7510(Mask Loss: 2.0671, Extra Loss: 9.3678), D Loss: 0.0046
+Epoch: 12, G Loss: 6.3133(Mask Loss: 2.1869, Extra Loss: 8.2529), D Loss: 0.0070
+Epoch: 13, G Loss: 6.0762(Mask Loss: 2.1103, Extra Loss: 7.9319), D Loss: 0.0095
+Epoch: 14, G Loss: 6.5002(Mask Loss: 2.3456, Extra Loss: 8.3091), D Loss: 0.0107
+Epoch: 15, G Loss: 7.3115(Mask Loss: 2.3574, Extra Loss: 9.9081), D Loss: 0.0021
+
+result:
+Final FID: 412.7414
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0008090506685286771
+weight_decay : 0.000522028562671494
+warmup_proportion : 0.001199337451374421
+batch_size : 32
+embed_dim : 1024
+depth : 37
+num_heads : 16
+mlp_ratio : 8.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.1
+local_up_to_layer : 8
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-01-25 19:42:56.465180
+--------------------End--------------------
+
+Index: 6
+
+--------------------Start train-------------------
+Start time: 2025-01-25 19:42:58.762024
+
+Epoch: 1, G Loss: 3.5598(Mask Loss: 2.3948, Extra Loss: 2.3300), D Loss: 2.8235
+Epoch: 2, G Loss: 2.6062(Mask Loss: 1.9798, Extra Loss: 1.2528), D Loss: 3.9356
+Epoch: 3, G Loss: 1.8462(Mask Loss: 1.4585, Extra Loss: 0.7754), D Loss: 2.1692
+Epoch: 4, G Loss: 1.7615(Mask Loss: 1.3348, Extra Loss: 0.8534), D Loss: 1.6221
+Epoch: 5, G Loss: 1.8311(Mask Loss: 1.3160, Extra Loss: 1.0302), D Loss: 1.4366
+Epoch: 6, G Loss: 1.8090(Mask Loss: 1.3006, Extra Loss: 1.0168), D Loss: 1.2582
+Epoch: 7, G Loss: 2.0754(Mask Loss: 1.4921, Extra Loss: 1.1664), D Loss: 1.7137
+Epoch: 8, G Loss: 1.6824(Mask Loss: 1.2056, Extra Loss: 0.9536), D Loss: 1.4870
+Epoch: 9, G Loss: 1.7063(Mask Loss: 1.2021, Extra Loss: 1.0082), D Loss: 1.4936
+Epoch: 10, G Loss: 1.7072(Mask Loss: 1.1443, Extra Loss: 1.1259), D Loss: 1.2886
+Epoch: 11, G Loss: 1.7233(Mask Loss: 1.2067, Extra Loss: 1.0331), D Loss: 1.3570
+Epoch: 12, G Loss: 1.6436(Mask Loss: 1.1399, Extra Loss: 1.0074), D Loss: 1.4622
+Epoch: 13, G Loss: 1.6194(Mask Loss: 1.1197, Extra Loss: 0.9994), D Loss: 1.2355
+Epoch: 14, G Loss: 1.6832(Mask Loss: 1.1805, Extra Loss: 1.0054), D Loss: 1.3756
+Epoch: 15, G Loss: 1.6800(Mask Loss: 1.1803, Extra Loss: 0.9994), D Loss: 1.5338
+
+result:
+Final FID: 239.9546
+
+Hyperparameters: 
+img_size : 128
+lr : 7.718016493180675e-05
+weight_decay : 0.0008217505892744254
+warmup_proportion : 4.1423576266992566e-05
+batch_size : 16
+embed_dim : 768
+depth : 9
+num_heads : 16
+mlp_ratio : 8.0
+drop_rate : 0.2
+attn_drop_rate : 0.3
+drop_path_rate : 0.1
+local_up_to_layer : 6
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 128
+
+End time: 2025-01-25 20:11:52.439381
+--------------------End--------------------
+
+Index: 7
+
+--------------------Start train-------------------
+Start time: 2025-01-25 20:11:55.775575
+
+Epoch: 1, G Loss: 4.9502(Mask Loss: 2.3374, Extra Loss: 5.2257), D Loss: 0.2480
+Epoch: 2, G Loss: 6.0893(Mask Loss: 2.3387, Extra Loss: 7.5011), D Loss: 0.4164
+Epoch: 3, G Loss: 6.1137(Mask Loss: 1.9956, Extra Loss: 8.2362), D Loss: 0.3460
+Epoch: 4, G Loss: 4.9944(Mask Loss: 1.8356, Extra Loss: 6.3175), D Loss: 0.4247
+Epoch: 5, G Loss: 5.2602(Mask Loss: 1.8556, Extra Loss: 6.8093), D Loss: 0.6156
+Epoch: 6, G Loss: 4.7041(Mask Loss: 1.8401, Extra Loss: 5.7279), D Loss: 0.6298
+Epoch: 7, G Loss: 4.4430(Mask Loss: 1.8071, Extra Loss: 5.2718), D Loss: 0.3903
+Epoch: 8, G Loss: 4.6424(Mask Loss: 1.8336, Extra Loss: 5.6176), D Loss: 0.3898
+Epoch: 9, G Loss: 4.2159(Mask Loss: 1.8679, Extra Loss: 4.6960), D Loss: 0.3441
+Epoch: 10, G Loss: 4.5757(Mask Loss: 2.0593, Extra Loss: 5.0328), D Loss: 0.4254
+Epoch: 11, G Loss: 5.4936(Mask Loss: 2.3665, Extra Loss: 6.2542), D Loss: 0.3551
+Epoch: 12, G Loss: 4.0415(Mask Loss: 1.8866, Extra Loss: 4.3098), D Loss: 0.4319
+Epoch: 13, G Loss: 4.4526(Mask Loss: 1.9517, Extra Loss: 5.0019), D Loss: 0.3163
+Epoch: 14, G Loss: 5.3902(Mask Loss: 2.0856, Extra Loss: 6.6092), D Loss: 0.6504
+Epoch: 15, G Loss: 4.6836(Mask Loss: 2.0229, Extra Loss: 5.3214), D Loss: 0.5079

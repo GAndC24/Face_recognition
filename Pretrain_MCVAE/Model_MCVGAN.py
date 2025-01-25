@@ -14,7 +14,7 @@ class Masked_ConViT_GAN_Generator(nn.Module):
         decoder_embed(Linear) - decoder_blocks(Block) - decoder_norm(LayerNorm) - decoder_pred(Linear)
 
     '''
-    def __init__(self, img_size=64, patch_size=16, in_chans=3, num_classes=1, embed_dim=1024, depth=24,
+    def __init__(self, img_size=128, patch_size=16, in_chans=3, num_classes=1, embed_dim=1024, depth=24,
                  num_heads=16, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0., norm_layer=nn.LayerNorm, local_up_to_layer=10, locality_strength=1.,
                  use_pos_embed=True, decoder_embed_dim=512, decoder_depth=8, decoder_num_heads=16, norm_pix_loss=False):
@@ -22,7 +22,7 @@ class Masked_ConViT_GAN_Generator(nn.Module):
         初始化 Masked_ConViT_GAN
 
         Args：
-            :param img_size: 图像大小，默认值为 64
+            :param img_size: 图像大小，默认值为 128
             :param patch_size: 每个 patch 的大小，默认值为 16
             :param in_chans: 输入通道数，默认值为 3
             :param num_classes: 类别数，默认值为 1
@@ -438,7 +438,7 @@ class Masked_ConViT_GAN_Discriminator(nn.Module):
         flatten - output(Linear)
     '''
 
-    def __init__(self, in_chans=3, img_size=64, num_classes=1, filter_size=4, num_filters=64, norm_layer=nn.BatchNorm2d,
+    def __init__(self, in_chans=3, img_size=128, num_classes=1, filter_size=4, num_filters=64, norm_layer=nn.BatchNorm2d,
                  act_layer=nn.ReLU):
         '''
         初始化
@@ -530,14 +530,14 @@ class Masked_ConViT_GAN_Discriminator(nn.Module):
 # test train
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    imgs = torch.randn((128, 3, 64, 64)).to(device)
+    imgs = torch.randn((32, 3, 128, 128)).to(device)
 
-    generator = Masked_ConViT_GAN_Generator(img_size=64, patch_size=16, in_chans=3, num_classes=1, embed_dim=1024,depth=24,
+    generator = Masked_ConViT_GAN_Generator(img_size=128, patch_size=16, in_chans=3, num_classes=1, embed_dim=1024,depth=24,
                                             num_heads=16, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0.,
                                             attn_drop_rate=0.,drop_path_rate=0., local_up_to_layer=10,locality_strength=1.,
                                             use_pos_embed=True, decoder_embed_dim=512, decoder_depth=8,decoder_num_heads=16,
                                             norm_pix_loss=False).to(device)
-    discriminator = Masked_ConViT_GAN_Discriminator(in_chans=3, img_size=64, num_classes=1, filter_size=4, num_filters=64).to(device)
+    discriminator = Masked_ConViT_GAN_Discriminator(in_chans=3, img_size=128, num_classes=1, filter_size=4, num_filters=64).to(device)
 
     optim_G = torch.optim.Adam(generator.parameters(), lr=1e-4)
     optim_D = torch.optim.Adam(discriminator.parameters(), lr=1e-4)

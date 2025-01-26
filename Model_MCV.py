@@ -1,4 +1,4 @@
-from Model_MCVAE import Masked_ConViT_Autoencoder
+from Pretrain_MCVAE.Model_MCVAE import Masked_ConViT_Autoencoder
 import torch.nn as nn
 import torch
 
@@ -14,18 +14,18 @@ class Masked_ConViT(nn.Module):
         classifier(MLP)：
             Linear - ReLU - Linear
     '''
-    def __init__(self, num_classes=8, hidden_dim=512, pretrained_MCVAE_path=None):
+    def __init__(self, label_dim=17, hidden_dim=512, pretrained_MCVAE_path=None):
         '''
         初始化 Masked_ConViT
 
         Args：
-            :param num_classes: 类别数
+            :param label_dim: 标签维度
             :param hidden_dim: 分类器隐藏层维度
             :param pretrained_MCVAE_path: 预训练 Masked_ConViT_Autoencoder 模型路径
         '''
         super().__init__()
 
-        self.num_classes = num_classes
+        self.label_dim = label_dim
 
         # 初始化 Masked_ConViT_Autoencoder
         self.encoder = Masked_ConViT_Autoencoder()
@@ -37,7 +37,7 @@ class Masked_ConViT(nn.Module):
         self.classifier = nn.Sequential(
             nn.Linear(self.encoder.embed_dim, hidden_dim),
             nn.ReLU(),
-            nn.Linear(hidden_dim, num_classes)
+            nn.Linear(hidden_dim, label_dim)
         )
 
 

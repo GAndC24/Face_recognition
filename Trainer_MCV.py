@@ -8,17 +8,16 @@ from torchvision import transforms
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
-from Model_MCVAE import Masked_ConViT_Autoencoder
+from Pretrain_MCVAE.Model_MCVAE import Masked_ConViT_Autoencoder
 
 
-class Trainer_MCVGAN():
-    def __init__(self, generator, discriminator, lr, warmup_proportion, weight_decay, batch_size, img_size, epochs=15):
+class Trainer_MCV():
+    def __init__(self, model, lr, warmup_proportion, weight_decay, batch_size, img_size, epochs=15):
         '''
         初始化训练器
 
         Args:
-            :param generator: 生成器
-            :param discriminator: 判别器
+            :param model: 模型
             :param lr: 学习率
             :param warmup_proportion: 学习率预热比例
             :param weight_decay: 学习率衰减系数
@@ -27,8 +26,7 @@ class Trainer_MCVGAN():
             :param train_mini_epochs: mini_train 迭代次数
             :param epochs: train 迭代次数
         '''
-        self.generator = generator
-        self.discriminator = discriminator
+        self.model = model
         self.lr = lr
         self.warmup_proportion = warmup_proportion
         self.weight_decay = weight_decay
@@ -72,54 +70,35 @@ class Trainer_MCVGAN():
         self.mini_train_loader = DataLoader(dataset=mini_train_dataset, batch_size=self.batch_size, shuffle=True)
         self.train_loader = DataLoader(dataset=train_dataset, batch_size=self.batch_size, shuffle=True)
         self.validation_loader = DataLoader(dataset=validation_dataset, batch_size=self.batch_size, shuffle=False)
-        self.mini_validation_loader = DataLoader(dataset=mini_validation_dataset, batch_size=self.batch_size, shuffle=False)
+        self.mini_validation_loader = DataLoader(dataset=mini_validation_dataset, batch_size=self.batch_size,
+                                                 shuffle=False)
         self.test_loader = DataLoader(dataset=test_dataset, batch_size=self.batch_size, shuffle=False)
 
         # 使用 cuda
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         # 初始化模型
-        self.generator = self.generator.to(self.device)
-        self.discriminator = self.discriminator.to(self.device)
+        self.model = self.model.to(self.device)
 
         # 定义损失函数
-        self.loss_func_D = nn.BCEWithLogitsLoss()
+        self.loss_func = nn.CrossEntropyLoss()
 
         # 定义优化器
-        self.optimizer_G = optim.AdamW(
-            params=self.generator.parameters(),
+        self.optimizer = optim.AdamW(
+            params=self.model.parameters(),
             lr=self.lr,
             weight_decay=self.weight_decay
         )
 
-        self.optimizer_D = optim.AdamW(
-            params=self.discriminator.parameters(),
-            lr=self.lr,
-            weight_decay=self.weight_decay
-        )
-
-        # 定义 generator 学习率预热调度器
-        self.lr_warmup_scheduler_G = optim.lr_scheduler.LambdaLR(
-            self.optimizer_G,
+        # 定义学习率预热调度器
+        self.lr_warmup_scheduler = optim.lr_scheduler.LambdaLR(
+            self.optimizer,
             lr_lambda=self.lr_lambda
         )
 
-        # 定义 generator 学习率衰减调度器
-        self.lr_decay_scheduler_G = optim.lr_scheduler.StepLR(
-            self.optimizer_G,
-            step_size=30,
-            gamma=self.weight_decay
-        )
-
-        # 定义 discriminator 学习率预热调度器
-        self.lr_warmup_scheduler_D = optim.lr_scheduler.LambdaLR(
-            self.optimizer_D,
-            lr_lambda=self.lr_lambda
-        )
-
-        # 定义 discriminator 学习率衰减调度器
-        self.lr_decay_scheduler_D = optim.lr_scheduler.StepLR(
-            self.optimizer_D,
+        # 定义学习率衰减调度器
+        self.lr_decay_scheduler = optim.lr_scheduler.StepLR(
+            self.optimizer,
             step_size=30,
             gamma=self.weight_decay
         )
@@ -135,7 +114,7 @@ class Trainer_MCVGAN():
         if current_epoch < self.num_warmup_epochs:
             return float(current_epoch) / float(max(1, self.num_warmup_epochs))
         else:
-            return 1        # 预热结束后，返回学习率不变
+            return 1  # 预热结束后，返回学习率不变
 
     # 训练(超参数优化)
     def train_HP_optim(self, index, k=10):
@@ -151,7 +130,7 @@ class Trainer_MCVGAN():
             f.write(f"\nIndex: {index + 1}\n"
                     f"\n--------------------Start train-------------------\n"
                     f"Start time: {current_time}\n\n"
-            )
+                    )
         print(
             f"\nIndex: {index + 1}\n"
             f"img_size : {self.img_size}\n"
@@ -230,7 +209,8 @@ class Trainer_MCVGAN():
                 self.lr_warmup_scheduler_G.step()
                 self.lr_decay_scheduler_G.step()
 
-                print(f"Epoch: {epoch}, Step: {step + 1}, G Loss: {g_loss.item():.4f}, D Loss: {d_loss.item():.4f}, mask loss: {mask_loss.item():.4f}, extra loss: {extra_loss.item():.4f}")
+                print(
+                    f"Epoch: {epoch}, Step: {step + 1}, G Loss: {g_loss.item():.4f}, D Loss: {d_loss.item():.4f}, mask loss: {mask_loss.item():.4f}, extra loss: {extra_loss.item():.4f}")
 
             average_G_loss = epoch_g_loss / len(self.mini_train_loader)
             average_D_loss = epoch_d_loss / count_train_d
@@ -239,14 +219,16 @@ class Trainer_MCVGAN():
 
             # 记录日志
             with open("pretrain_log.txt", "a") as f:
-                f.write(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                  f"D Loss: {average_D_loss:.4f}\n"
-                )
+                f.write(
+                    f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
+                    f"D Loss: {average_D_loss:.4f}\n"
+                    )
 
-            print(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                  f"D Loss: {average_D_loss:.4f}")
+            print(
+                f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
+                f"D Loss: {average_D_loss:.4f}")
 
-        final_FID = self.get_fid_score(self.generator, self.mini_validation_loader, self.device)     # 最终 FID 分数
+        final_FID = self.get_fid_score(self.generator, self.mini_validation_loader, self.device)  # 最终 FID 分数
 
         print(f"Final FID: {final_FID:.4f}")
 
@@ -277,7 +259,7 @@ class Trainer_MCVGAN():
                     f"num_filters : {self.discriminator.num_filters}\n"
                     f"\nEnd time: {current_time}\n"
                     f"--------------------End--------------------\n"
-            )
+                    )
 
         return final_FID
 
@@ -342,8 +324,7 @@ class Trainer_MCVGAN():
                     f"decoder_num_heads : {self.generator.decoder_num_heads}\n"
                     f"filter_size : {self.discriminator.filter_size}\n"
                     f"num_filters : {self.discriminator.num_filters}\n"
-            )
-
+                    )
 
         print(f"img_size : {self.img_size}\n"
               f"lr : {self.lr}\n"
@@ -364,7 +345,7 @@ class Trainer_MCVGAN():
               f"decoder_num_heads : {self.generator.decoder_num_heads}\n"
               f"filter_size : {self.discriminator.filter_size}\n"
               f"num_filters : {self.discriminator.num_filters}\n"
-        )
+              )
 
         train_fid_list = []
         val_fid_list = []
@@ -435,14 +416,16 @@ class Trainer_MCVGAN():
 
             # 记录日志
             with open("pretrain_log.txt", "a") as f:
-                f.write(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                        f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}\n"
-                )
+                f.write(
+                    f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
+                    f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}\n"
+                    )
 
-            print(f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                  f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}")
+            print(
+                f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
+                f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}")
 
-        final_FID = self.get_fid_score(self.generator, self.validation_loader, self.device)     # 最终 FID 分数
+        final_FID = self.get_fid_score(self.generator, self.validation_loader, self.device)  # 最终 FID 分数
 
         # 将结果写入到文件中进行记录
         with open("pretrain_log.txt", "a") as f:
@@ -458,7 +441,6 @@ class Trainer_MCVGAN():
         plt.ylabel("FID")
         plt.legend(loc='lower right')
         plt.show()
-
 
     def save_generator(self):
         '''

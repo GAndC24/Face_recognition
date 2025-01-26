@@ -80,4 +80,3 @@ class FaceMask_Dataset(Dataset):
             img_name_decimal = img_name_decimal // 2
 
         return img, label
-

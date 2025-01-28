@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from Pretrain_MCVAE.Trainer_MCVGAN import Trainer_MCVGAN
-from Model_MCVGAN import *
+from Trainer_MCV import Trainer_MCV
+from Model_MCV import *
 from datetime import datetime
 
 
-class HP_optimizer_MCVGAN():
-    '''MAE 超参数优化器（基于遗传算法）'''
+class HP_optimizer_MCV():
+    '''MCV 超参数优化器（基于遗传算法）'''
     def __init__(self, img_size=128, NP=60, select_ratio=0.8, L=18, G=20, Pc=0.8, Pm=0.05, train_mini_epochs=20):
         '''
         初始化超参数优化器

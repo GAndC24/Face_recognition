@@ -117,15 +117,15 @@ class Trainer_MCV():
             return 1  # 预热结束后，返回学习率不变
 
     # 训练(超参数优化)
-    def train_HP_optim(self, index, k=10):
+    def train_HP_optim(self, index):
         '''
         训练
         :param index: 种群个体序号
-        :param k: 判别器每 k step 训练一次
-        :return: 最终 FID 分数
+
+        :return: 最终 Accuracy
         '''
         # 记录日志
-        with open("pretrain_log.txt", "a") as f:
+        with open("train_log.txt", "a") as f:
             current_time = datetime.now()
             f.write(f"\nIndex: {index + 1}\n"
                     f"\n--------------------Start train-------------------\n"

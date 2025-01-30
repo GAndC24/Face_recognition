@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 from Trainer_MCVGAN import Trainer_MCVGAN
 from Model_MCVGAN import Masked_ConViT_GAN_Generator, Masked_ConViT_GAN_Discriminator
@@ -57,8 +58,15 @@ from Model_MCVGAN import Masked_ConViT_GAN_Generator, Masked_ConViT_GAN_Discrimi
 
 if __name__ == '__main__':
     # trainer.train_HP_optim(0)
-    # 清除显存缓存
-    torch.cuda.empty_cache()
-    # 重置最大显存分配统计
-    torch.cuda.reset_max_memory_allocated()
+
+    # 创建一个示例数组
+    arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+    # 要删除的索引
+    index_to_delete = 4
+
+    # 删除指定索引的元素
+    arr = np.delete(arr, index_to_delete)
+
+    print(arr)
 

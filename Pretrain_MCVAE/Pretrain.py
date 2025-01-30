@@ -5,13 +5,13 @@ from Model_MCVGAN import Masked_ConViT_GAN_Generator, Masked_ConViT_GAN_Discrimi
 
 # 超参数
 img_size = 128
-NP = 60
-G = 20
+NP = 4
+G = 2
 select_ratio = 0.8
 L = 18
 Pc = 0.8
 Pm = 0.05
-train_mini_epochs = 15
+train_mini_epochs = 1
 epochs = 1000
 
 if __name__ == '__main__':

@@ -87,6 +87,9 @@ class HP_optimizer_MCVGAN():
         best_fitness = np.inf  # 最优适应度值
         x_best = None  # 最优个体
         count_gen = 0   # 记录优化代数
+        fitness = np.zeros(self.NP)  # 适应度值列表
+        for i in range(self.NP):
+            fitness[i] = np.inf
 
         # 进化迭代
         for gen in range(self.G):
@@ -98,10 +101,13 @@ class HP_optimizer_MCVGAN():
                 )
 
             # 计算适应度值
-            fid_score = np.zeros((self.NP, 1))
 
             # deep learning
             for i in range(self.NP):
+                # 判断是否已经计算过适应度值
+                if fitness[i] < np.inf:
+                    continue
+
                 lr = self.population[i, 0]
                 warmup_proportion = self.population[i, 1]
                 weight_decay = self.population[i, 2]
@@ -150,15 +156,13 @@ class HP_optimizer_MCVGAN():
                     lr=lr,
                     warmup_proportion=warmup_proportion,
                     weight_decay=weight_decay,
-                    batch_size=batch_size,
+                    batch_size=128,
                     img_size=self.img_size,
                     epochs=self.train_mini_epochs
                 )
 
                 fid = trainer.train_HP_optim(i)
-                fid_score[i] = fid
-
-            fitness = fid_score     # 以 FID score 作为适应度值
+                fitness[i] = fid        # 以 FID score 作为适应度值
 
             # 记录平均适应度值
             average_fitness = np.mean(fitness)
@@ -191,18 +195,25 @@ class HP_optimizer_MCVGAN():
 
             # 选择（基于轮盘赌）
             selected_indices = np.random.choice(np.arange(self.NP), size=int(self.NP * self.select_ratio), replace=False, p=P)
-            selected_population = self.population[selected_indices].copy()
+            selected_population = self.population[selected_indices]
+            # 更新适应度值列表
+            fitness = fitness[selected_indices]
             self.NP = selected_population.shape[0]  # 更新种群数目
 
             # 交叉
-            for i in range(0, self.NP - 1, 2):
+            for i in range(0, self.NP, 2):
                 if np.random.rand() < self.Pc:
+                    # 防止越界
+                    if i + 1 >= self.NP:
+                        break
                     # 随机选择交叉点
                     point = np.random.randint(1, self.L)
                     # 交叉
                     offspring1 = selected_population[i, point:].copy()
                     offspring2 = selected_population[i + 1, point:].copy()
                     selected_population[i, point:], selected_population[i + 1, point:] = offspring2, offspring1
+                    # 更新适应度值缓存
+                    fitness[i] = fitness[i + 1] = np.inf
 
             # 变异
             for i in range(self.NP):
@@ -246,15 +257,20 @@ class HP_optimizer_MCVGAN():
                         selected_population[i, point] = np.random.choice([3, 5, 7], size=1)
                     elif point == 17:  # num_filters 变异
                         selected_population[i, point] = np.random.choice([32, 64, 128], size=1)
+                    # 更新适应度值缓存
+                    fitness[i] = np.inf
 
 
             # 精英策略：将最优个体加入新种群
-            reshaped_x_best = x_best.copy().reshape(1, self.L)
-            new_population = np.append(selected_population, reshaped_x_best, axis=0)
-            self.NP = new_population.shape[0]  # 更新种群数目
+            reshaped_current_x_best = current_x_best.reshape(1, self.L)
+            new_population = np.append(selected_population, reshaped_current_x_best, axis=0)
+            # 更新适应度值列表
+            fitness[self.NP] = current_best_fitness
+            # 更新种群数目
+            self.NP = new_population.shape[0]
 
             # 更新种群
-            self.population = new_population.copy()
+            self.population = new_population
 
             # 更新优化代数
             count_gen += 1

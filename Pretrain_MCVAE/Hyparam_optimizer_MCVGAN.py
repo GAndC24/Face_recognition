@@ -5,13 +5,13 @@ from Model_MCVGAN import *
 from datetime import datetime
 
 
-class HP_optimizer_MCVGAN():
+class Hyparam_optimizer_MCVGAN():
     '''MAE 超参数优化器（基于遗传算法）'''
     def __init__(self, img_size=128, NP=60, select_ratio=0.8, L=18, G=20, Pc=0.8, Pm=0.05, train_mini_epochs=20):
         '''
         初始化超参数优化器
         :param NP: 种群数目
-        :param select_ratio: 选择比例
+        :param select_ratio: 每一代选择比例
         :param L: 染色体长度
         :param G: 进化代数
         :param Pc: 交叉概率
@@ -47,9 +47,15 @@ class HP_optimizer_MCVGAN():
         self.Pm = Pm
         self.train_mini_epochs = train_mini_epochs
 
+        self.initialize_population()
+
+    def initialize_population(self):
+        '''
+        初始化种群
+        '''
         # 初始化种群
-        self.population = np.zeros((NP, L))
-        for i in range(NP):
+        self.population = np.zeros((self.NP, self.L))
+        for i in range(self.NP):
             self.population[i, 0] = np.random.uniform(1E-6, 1E-3)  # lr
             self.population[i, 1] = np.random.uniform(1E-5, 1E-2)  # warmup_proportion
             self.population[i, 2] = np.random.uniform(1E-6, 1E-3)    # weight_decay
@@ -87,9 +93,9 @@ class HP_optimizer_MCVGAN():
         best_fitness = np.inf  # 最优适应度值
         x_best = None  # 最优个体
         count_gen = 0   # 记录优化代数
-        fitness = np.zeros(self.NP)  # 适应度值列表
+        self.fitness = np.zeros(self.NP)  # 种群适应度值
         for i in range(self.NP):
-            fitness[i] = np.inf
+            self.fitness[i] = np.inf
 
         # 进化迭代
         for gen in range(self.G):
@@ -105,7 +111,7 @@ class HP_optimizer_MCVGAN():
             # deep learning
             for i in range(self.NP):
                 # 判断是否已经计算过适应度值
-                if fitness[i] < np.inf:
+                if self.fitness[i] < np.inf:
                     continue
 
                 lr = self.population[i, 0]
@@ -127,8 +133,7 @@ class HP_optimizer_MCVGAN():
                 filter_size = int(self.population[i, 16])
                 num_filters = int(self.population[i, 17])
 
-                # 清除显存缓存
-                torch.cuda.empty_cache()
+                torch.cuda.empty_cache()        # 清除 GPU 显存缓存
                 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')       # 使用 cuda
                 generator = Masked_ConViT_GAN_Generator(
                     img_size=self.img_size,
@@ -156,24 +161,25 @@ class HP_optimizer_MCVGAN():
                     lr=lr,
                     warmup_proportion=warmup_proportion,
                     weight_decay=weight_decay,
-                    batch_size=128,
+                    batch_size=batch_size,
                     img_size=self.img_size,
                     epochs=self.train_mini_epochs
                 )
 
                 fid = trainer.train_HP_optim(i)
-                fitness[i] = fid        # 以 FID score 作为适应度值
+                # 记录适应度值
+                self.fitness[i] = fid        # 以 FID score 作为适应度值
 
             # 记录平均适应度值
-            average_fitness = np.mean(fitness)
+            average_fitness = np.mean(self.fitness)
             average_fitness_list.append(average_fitness)
 
-            index = np.argmin(fitness)  # 最小值索引
-            current_x_best = self.population[index].copy()  # 当代最优个体
-            current_best_fitness = fitness[index].item()  # 当代最优适应度值
+            # 计算当代最优适应度值并记录
+            index = np.argmin(self.fitness)      # 最小适应度值为最优
+            current_x_best = self.population[index]      # 当代最优个体
+            current_best_fitness = self.fitness[index].item()        # 当代最优适应度值
+            best_fitness_list.append(current_best_fitness)      # 记录当代最优适应度值
 
-            # 记录当代最优适应度值
-            best_fitness_list.append(current_best_fitness)
             # 记录日志：记录每一代平均适应度值、最优适应度值
             with open("pretrain_log.txt", "a") as f:
                 f.write(f"\nAverage Fitness: {average_fitness:.4f}\n")
@@ -184,88 +190,26 @@ class HP_optimizer_MCVGAN():
                 x_best = current_x_best
                 best_fitness = current_best_fitness
 
-            # 归一化
-            max_fitness = np.max(fitness)
-            min_fitness = np.min(fitness)
-            fitness_norm = (max_fitness - fitness) / (max_fitness - min_fitness)
+            # 轮盘赌选择
+            self.roulette_wheel_selection()
 
-            # 计算选择概率
-            P = fitness_norm / np.sum(fitness_norm)
-            P = P.flatten()  # 展平为一维
+            # # 单点交叉
+            # self.single_point_crossover()
 
-            # 选择（基于轮盘赌）
-            selected_indices = np.random.choice(np.arange(self.NP), size=int(self.NP * self.select_ratio), replace=False, p=P)
-            selected_population = self.population[selected_indices]
-            # 更新适应度值列表
-            fitness = fitness[selected_indices]
-            self.NP = selected_population.shape[0]  # 更新种群数目
+            # 两点交叉
+            self.two_point_crossover()
 
-            # 交叉
-            for i in range(0, self.NP, 2):
-                if np.random.rand() < self.Pc:
-                    # 防止越界
-                    if i + 1 >= self.NP:
-                        break
-                    # 随机选择交叉点
-                    point = np.random.randint(1, self.L)
-                    # 交叉
-                    offspring1 = selected_population[i, point:].copy()
-                    offspring2 = selected_population[i + 1, point:].copy()
-                    selected_population[i, point:], selected_population[i + 1, point:] = offspring2, offspring1
-                    # 更新适应度值缓存
-                    fitness[i] = fitness[i + 1] = np.inf
+            # # 均匀交叉
+            # self.uniform_crossover()
 
             # 变异
-            for i in range(self.NP):
-                if np.random.rand() < self.Pm:
-                    # 随机选择变异位
-                    point = np.random.randint(0, self.L)
-                    # 变异
-                    if point == 0:  # lr 变异
-                        selected_population[i, point] = np.random.uniform(1E-6, 1E-3)
-                    elif point == 1:  # warmup_proportion 变异
-                        selected_population[i, point] = np.random.uniform(1E-5, 1E-2)
-                    elif point == 2:  # weight_decay 变异
-                        selected_population[i, point] = np.random.uniform(1E-6, 1E-3)
-                    elif point == 3:  # batch_size 变异
-                        selected_population[i, point] = np.random.choice([16, 32], size=1)
-                    elif point == 4:  # embed_dim 变异
-                        selected_population[i, point] = np.random.choice([256, 512, 768, 1024], size=1)
-                    elif point == 5:  # depth 变异
-                        selected_population[i, point] = np.random.randint(6, 49)
-                    elif point == 6:  # num_heads 变异
-                        selected_population[i, point] = np.random.choice([8, 16, 32], size=1)
-                    elif point == 7:  # mlp_ratio 变异
-                        selected_population[i, point] = np.random.choice([2, 4, 8], size=1)
-                    elif point == 8:  # drop_rate 变异
-                        selected_population[i, point] = np.random.choice([0.1, 0.2, 0.3, 0.4, 0.5], size=1)
-                    elif point == 9:  # attn_drop_rate 变异
-                        selected_population[i, point] = np.random.choice([0.1, 0.2, 0.3], size=1)
-                    elif point == 10:  # drop_path_rate 变异
-                        selected_population[i, point] = np.random.choice([0.1, 0.2, 0.3], size=1)
-                    elif point == 11:  # local_up_to_layer 变异
-                        selected_population[i, point] = np.random.choice([6, 8, 10, 12], size=1)
-                    elif point == 12:  # locality_strength 变异
-                        selected_population[i, point] = np.random.choice([0.5, 1.0, 1.5], size=1)
-                    elif point == 13:  # decoder_embed_dim 变异
-                        selected_population[i, point] = np.random.choice([256, 512, 768], size=1)
-                    elif point == 14:  # decoder_depth 变异
-                        selected_population[i, point] = np.random.choice([4, 8, 12], size=1)
-                    elif point == 15:  # decoder_num_heads 变异
-                        selected_population[i, point] = np.random.choice([4, 8, 16], size=1)
-                    elif point == 16:  # filter_size 变异
-                        selected_population[i, point] = np.random.choice([3, 5, 7], size=1)
-                    elif point == 17:  # num_filters 变异
-                        selected_population[i, point] = np.random.choice([32, 64, 128], size=1)
-                    # 更新适应度值缓存
-                    fitness[i] = np.inf
-
+            self.mutation()
 
             # 精英策略：将最优个体加入新种群
             reshaped_current_x_best = current_x_best.reshape(1, self.L)
-            new_population = np.append(selected_population, reshaped_current_x_best, axis=0)
+            new_population = np.append(self.population, reshaped_current_x_best, axis=0)
             # 更新适应度值列表
-            fitness[self.NP] = current_best_fitness
+            self.fitness = np.append(self.fitness, current_best_fitness)
             # 更新种群数目
             self.NP = new_population.shape[0]
 
@@ -302,8 +246,8 @@ class HP_optimizer_MCVGAN():
                     f"--------------------End--------------------\n"
             )
 
-        print(f"最优适应度值: {best_fitness}\n"
-              "最优超参数:\n"
+        print(f"Best Fitness: {best_fitness}\n"
+              "Best Hyperparameters:\n"
               f"lr = {x_best[0]}\n"
               f"warmup_proportion = {x_best[1]}\n"
               f"weight_decay = {x_best[2]}\n"
@@ -335,3 +279,149 @@ class HP_optimizer_MCVGAN():
         plt.show()
 
         return x_best
+
+    def roulette_wheel_selection(self):
+        '''
+        轮盘赌选择（同步更新选择后种群适应度值）
+        '''
+        # 归一化
+        max_fitness = np.max(self.fitness)
+        min_fitness = np.min(self.fitness)
+        fitness_norm = (max_fitness - self.fitness) / (max_fitness - min_fitness)        # 归一化后的种群适应度值
+
+        # 计算选择概率
+        P = fitness_norm / np.sum(fitness_norm)
+        P = P.flatten()     # 展平为一维
+
+        # 选择
+        selected_indices = np.random.choice(np.arange(self.NP), size=int(self.NP * self.select_ratio), replace=False, p=P)
+        selected_individuals = self.population[selected_indices]
+
+        # 更新种群
+        self.population = selected_individuals
+
+        # 更新种群数目
+        self.NP = self.population.shape[0]
+
+        # 更新种群适应度值
+        self.fitness = self.fitness[selected_indices]
+
+    def single_point_crossover(self):
+        '''
+        单点交叉
+        '''
+        selected_crossover_indices = np.random.choice(np.arange(self.NP), size=int(self.NP // 2 * self.Pc), replace=False)      # 被选中进行交叉的个体索引
+
+        # 交叉
+        for i in range(0, len(selected_crossover_indices), 2):
+            # 随机选择交叉点
+            point = np.random.randint(1, self.L)
+
+            # 交叉
+            offspring1 = self.population[selected_crossover_indices[i], point:]     # 子代个体 1
+            offspring2 = self.population[selected_crossover_indices[i + 1], point:]     # 子代个体 2
+            self.population[selected_crossover_indices[i], point:], self.population[selected_crossover_indices[i + 1], point:] = offspring2, offspring1
+
+            # 更新适应度值
+            self.fitness[selected_crossover_indices[i]] = self.fitness[selected_crossover_indices[i + 1]] = np.inf
+
+    def two_point_crossover(self):
+        '''
+        两点交叉
+        '''
+        selected_crossover_indices = np.random.choice(np.arange(self.NP), size=int(self.NP // 2 * self.Pc),replace=False)       # 被选中进行交叉的个体索引
+
+        # 交叉
+        for i in range(0, len(selected_crossover_indices), 2):
+            # 随机选择交叉点
+            point_start = np.random.randint(1, self.L)
+            point_end = np.random.randint(point_start, self.L)
+
+            # 交叉
+            offspring1 = self.population[selected_crossover_indices[i], point_start:point_end]      # 子代个体 1
+            offspring2 = self.population[selected_crossover_indices[i + 1], point_start:point_end]      # 子代个体 2
+            self.population[selected_crossover_indices[i], point_start:point_end], self.population[selected_crossover_indices[i + 1], point_start:point_end] = offspring2, offspring1
+
+            # 更新适应度值
+            self.fitness[selected_crossover_indices[i]] = self.fitness[selected_crossover_indices[i + 1]] = np.inf
+
+    def uniform_crossover(self, P=0.5):
+        '''
+        均匀交叉
+
+        Args:
+            :param: P: 随机从两个父代个体选择基因的概率
+        '''
+        selected_crossover_indices = np.random.choice(np.arange(self.NP), size=int(self.NP // 2 * self.Pc), replace=False)      # 被选中进行交叉的个体索引
+
+        for i in range(0, len(selected_crossover_indices), 2):
+            offspring1 = np.zeros((1, self.L))      # 子代个体 1
+            offspring2 = np.zeros((1, self.L))      # 子代个体 2
+            for point in range(self.L):
+                # 从父代个体 1 中获取基因
+                if np.random.rand() < P:
+                    offspring1[0, point] = self.population[selected_crossover_indices[i], point]
+                    offspring2[0, point] = self.population[selected_crossover_indices[i], point]
+                # 从父代个体 2 中获取基因
+                else:
+                    offspring1[0, point] = self.population[selected_crossover_indices[i + 1], point]
+                    offspring2[0, point] = self.population[selected_crossover_indices[i + 1], point]
+
+            self.population[selected_crossover_indices[i]], self.population[selected_crossover_indices[i + 1]] = offspring2, offspring1
+
+            # 更新适应度值
+            self.fitness[selected_crossover_indices[i]] = self.fitness[selected_crossover_indices[i + 1]] = np.inf
+
+    def mutation(self):
+        '''
+        变异
+        '''
+        selected_mutation_indices = np.random.choice(np.arange(self.NP), size=int(self.NP * self.Pm), replace=False)      # 被选中进行变异的个体索引
+
+        for i in range(len(selected_mutation_indices)):
+            # 随机选择变异位
+            point = np.random.randint(0, self.L)
+
+            # 变异
+            if point == 0:  # lr 变异
+                self.population[selected_mutation_indices[i], point] = np.random.uniform(1E-6, 1E-3)
+            elif point == 1:  # warmup_proportion 变异
+                self.population[selected_mutation_indices[i], point] = np.random.uniform(1E-5, 1E-2)
+            elif point == 2:  # weight_decay 变异
+                self.population[selected_mutation_indices[i], point] = np.random.uniform(1E-6, 1E-3)
+            elif point == 3:  # batch_size 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([16, 32], size=1)
+            elif point == 4:  # embed_dim 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([256, 512, 768, 1024], size=1)
+            elif point == 5:  # depth 变异
+                self.population[selected_mutation_indices[i], point] = np.random.randint(6, 49)
+            elif point == 6:  # num_heads 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([8, 16, 32], size=1)
+            elif point == 7:  # mlp_ratio 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([2, 4, 8], size=1)
+            elif point == 8:  # drop_rate 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([0.1, 0.2, 0.3, 0.4, 0.5], size=1)
+            elif point == 9:  # attn_drop_rate 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([0.1, 0.2, 0.3], size=1)
+            elif point == 10:  # drop_path_rate 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([0.1, 0.2, 0.3], size=1)
+            elif point == 11:  # local_up_to_layer 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([6, 8, 10, 12], size=1)
+            elif point == 12:  # locality_strength 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([0.5, 1.0, 1.5], size=1)
+            elif point == 13:  # decoder_embed_dim 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([256, 512, 768], size=1)
+            elif point == 14:  # decoder_depth 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([4, 8, 12], size=1)
+            elif point == 15:  # decoder_num_heads 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([4, 8, 16], size=1)
+            elif point == 16:  # filter_size 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([3, 5, 7], size=1)
+            elif point == 17:  # num_filters 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([32, 64, 128], size=1)
+
+            # 更新适应度值缓存
+            self.fitness[selected_mutation_indices[i]] = np.inf
+
+
+

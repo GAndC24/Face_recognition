@@ -1,11 +1,11 @@
-from HP_optimizer_MCVGAN import HP_optimizer_MCVGAN
+from Hyparam_optimizer_MCVGAN import Hyparam_optimizer_MCVGAN
 import torch
 from Trainer_MCVGAN import Trainer_MCVGAN
 from Model_MCVGAN import Masked_ConViT_GAN_Generator, Masked_ConViT_GAN_Discriminator
 
 # 超参数
 img_size = 128
-NP = 4
+NP = 8
 G = 2
 select_ratio = 0.8
 L = 18
@@ -16,30 +16,30 @@ epochs = 1000
 
 if __name__ == '__main__':
     # 初始化 Hyperparameter optimizer
-    HP_optimizer = HP_optimizer_MCVGAN(img_size=img_size, NP=NP, select_ratio=select_ratio, G=G, L=L,
+    Hyparam_optimizer = Hyparam_optimizer_MCVGAN(img_size=img_size, NP=NP, select_ratio=select_ratio, G=G, L=L,
                                        Pc=Pc, Pm=Pm, train_mini_epochs=train_mini_epochs)
 
     # 获取 best Hyperparameters
-    HP_best = HP_optimizer.get_best_hyperparameters()
+    Hyparam_best = Hyparam_optimizer.get_best_hyperparameters()
 
-    lr = HP_best[0]
-    warmup_proportion = HP_best[1]
-    weight_decay = HP_best[2]
-    batch_size = HP_best[3]
-    embed_dim = HP_best[4]
-    depth = HP_best[5]
-    num_heads = HP_best[6]
-    mlp_ratio = HP_best[7]
-    drop_rate = HP_best[8]
-    attn_drop_rate = HP_best[9]
-    drop_path_rate = HP_best[10]
-    local_up_to_layer = HP_best[11]
-    locality_strength = HP_best[12]
-    decoder_embed_dim = HP_best[13]
-    decoder_depth = HP_best[14]
-    decoder_num_heads = HP_best[15]
-    filter_size = HP_best[16]
-    num_filters = HP_best[17]
+    lr = Hyparam_best[0]
+    warmup_proportion = Hyparam_best[1]
+    weight_decay = Hyparam_best[2]
+    batch_size = Hyparam_best[3]
+    embed_dim = Hyparam_best[4]
+    depth = Hyparam_best[5]
+    num_heads = Hyparam_best[6]
+    mlp_ratio = Hyparam_best[7]
+    drop_rate = Hyparam_best[8]
+    attn_drop_rate = Hyparam_best[9]
+    drop_path_rate = Hyparam_best[10]
+    local_up_to_layer = Hyparam_best[11]
+    locality_strength = Hyparam_best[12]
+    decoder_embed_dim = Hyparam_best[13]
+    decoder_depth = Hyparam_best[14]
+    decoder_num_heads = Hyparam_best[15]
+    filter_size = Hyparam_best[16]
+    num_filters = Hyparam_best[17]
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  # 使用 cuda
 
@@ -81,6 +81,7 @@ if __name__ == '__main__':
 
     trainer.train()
     trainer.save_generator()
+    trainer.save_MCVAE()
 
 
 

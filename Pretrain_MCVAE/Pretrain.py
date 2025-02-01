@@ -5,8 +5,8 @@ from Model_MCVGAN import Masked_ConViT_GAN_Generator, Masked_ConViT_GAN_Discrimi
 
 # 超参数
 img_size = 128
-NP = 8
-G = 2
+NP = 15
+G = 5
 select_ratio = 0.8
 L = 18
 Pc = 0.8

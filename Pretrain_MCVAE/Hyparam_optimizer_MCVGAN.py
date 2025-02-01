@@ -310,7 +310,12 @@ class Hyparam_optimizer_MCVGAN():
         '''
         单点交叉
         '''
-        selected_crossover_indices = np.random.choice(np.arange(self.NP), size=int(self.NP // 2 * self.Pc), replace=False)      # 被选中进行交叉的个体索引
+        selected_size = int(self.NP * self.Pc)
+        if selected_size % 2 == 0:
+            selected_crossover_indices = np.random.choice(np.arange(self.NP), size=selected_size, replace=False)
+        else:
+            selected_size -= 1
+            selected_crossover_indices = np.random.choice(np.arange(self.NP), size=selected_size, replace=False)
 
         # 交叉
         for i in range(0, len(selected_crossover_indices), 2):
@@ -329,7 +334,12 @@ class Hyparam_optimizer_MCVGAN():
         '''
         两点交叉
         '''
-        selected_crossover_indices = np.random.choice(np.arange(self.NP), size=int(self.NP // 2 * self.Pc),replace=False)       # 被选中进行交叉的个体索引
+        selected_size = int(self.NP * self.Pc)
+        if selected_size % 2 == 0:
+            selected_crossover_indices = np.random.choice(np.arange(self.NP), size=selected_size,replace=False)
+        else:
+            selected_size -= 1
+            selected_crossover_indices = np.random.choice(np.arange(self.NP), size=selected_size, replace=False)
 
         # 交叉
         for i in range(0, len(selected_crossover_indices), 2):
@@ -352,7 +362,12 @@ class Hyparam_optimizer_MCVGAN():
         Args:
             :param: P: 随机从两个父代个体选择基因的概率
         '''
-        selected_crossover_indices = np.random.choice(np.arange(self.NP), size=int(self.NP // 2 * self.Pc), replace=False)      # 被选中进行交叉的个体索引
+        selected_size = int(self.NP * self.Pc)
+        if selected_size % 2 == 0:
+            selected_crossover_indices = np.random.choice(np.arange(self.NP), size=selected_size, replace=False)
+        else:
+            selected_size -= 1
+            selected_crossover_indices = np.random.choice(np.arange(self.NP), size=selected_size, replace=False)
 
         for i in range(0, len(selected_crossover_indices), 2):
             offspring1 = np.zeros((1, self.L))      # 子代个体 1

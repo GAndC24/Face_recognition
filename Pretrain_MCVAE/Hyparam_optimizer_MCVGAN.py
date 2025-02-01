@@ -223,8 +223,8 @@ class Hyparam_optimizer_MCVGAN():
 
         # 将结果写入到文件中进行记录
         with open("pretrain_log.txt", "a") as f:
-            f.write(f"\n最优适应度值: {best_fitness}\n"
-                    "最优超参数:\n"
+            f.write(f"\nBest Fitness: {best_fitness}\n"
+                    "Best Hyperparameters:\n"
                     f"lr = {x_best[0]}\n"
                     f"warmup_proportion = {x_best[1]}\n"
                     f"weight_decay = {x_best[2]}\n"

@@ -7,7 +7,7 @@ from datetime import datetime
 
 class Hyparam_optimizer_MCV():
     '''MCV 超参数优化器（基于遗传算法）'''
-    def __init__(self, img_size=128, NP=60, select_ratio=0.8, L=18, G=20, Pc=0.8, Pm=0.05, train_mini_epochs=20):
+    def __init__(self, img_size=128, NP=60, select_ratio=0.8, L=5, G=20, Pc=0.8, Pm=0.05, train_mini_epochs=20):
         '''
         初始化超参数优化器
         :param NP: 种群数目
@@ -23,20 +23,7 @@ class Hyparam_optimizer_MCV():
         1: warmup_proportion = [1e-5, 1e-2)
         2: weight_decay = [1e-6, 1e-3)
         3: batch_size = (16, 32)
-        4: embed_dim = (256, 512, 768, 1024)
-        5: depth = [6, 48]
-        6: num_heads = (8, 16, 32)
-        7: mlp_ratio = (2, 4, 8)
-        8: drop_rate = (0.1, 0.2, 0.3, 0.4, 0.5)
-        9: attn_drop_rate = (0.1, 0.2, 0.3)
-        10: drop_path_rate = (0.1, 0.2, 0.3)
-        11: local_up_to_layer = (6, 8, 10, 12)
-        12: locality_strength = (0.5, 1.0, 1.5)
-        13: decoder_embed_dim = (256, 512, 768)
-        14: decoder_depth = (4, 8, 12)
-        15: decoder_num_heads = (4, 8, 16)
-        16: filter_size = (3, 5, 7)
-        17: num_filters = (32, 64, 128)
+        4: hidden_dim = (128, 256, 512, 1024, 2048)
         '''
         self.img_size = img_size
         self.NP = NP
@@ -60,20 +47,7 @@ class Hyparam_optimizer_MCV():
             self.population[i, 1] = np.random.uniform(1E-5, 1E-2)  # warmup_proportion
             self.population[i, 2] = np.random.uniform(1E-6, 1E-3)    # weight_decay
             self.population[i, 3] = np.random.choice([16, 32], size=1)  # batch_size
-            self.population[i, 4] = np.random.choice([256, 512, 768, 1024], size=1)  # embed_dim
-            self.population[i, 5] = np.random.randint(6, 49)  # depth [6, 48]
-            self.population[i, 6] = np.random.choice([8, 16, 32], size=1)  # num_heads
-            self.population[i, 7] = np.random.choice([2, 4, 8], size=1)  # mlp_ratio
-            self.population[i, 8] = np.random.choice([0.1, 0.2, 0.3, 0.4, 0.5], size=1)  # drop_rate
-            self.population[i, 9] = np.random.choice([0.1, 0.2, 0.3], size=1)  # attn_drop_rate
-            self.population[i, 10] = np.random.choice([0.1, 0.2, 0.3], size=1)  # drop_path_rate
-            self.population[i, 11] = np.random.choice([6, 8, 10, 12], size=1)  # local_up_to_layer
-            self.population[i, 12] = np.random.choice([0.5, 1.0, 1.5], size=1)  # locality_strength
-            self.population[i, 13] = np.random.choice([256, 512, 768], size=1)  # decoder_embed_dim
-            self.population[i, 14] = np.random.choice([4, 8, 12], size=1)  # decoder_depth
-            self.population[i, 15] = np.random.choice([4, 8, 16], size=1)  # decoder_num_heads
-            self.population[i, 16] = np.random.choice([3, 5], size=1)  # filter_size
-            self.population[i, 17] = np.random.choice([32, 64, 128], size=1)  # num_filters
+            self.population[i, 4] = np.random.choice([128, 256, 512, 1024, 2048], size=1)  # hidden_dim
 
     def get_best_hyperparameters(self):
         '''
@@ -118,46 +92,13 @@ class Hyparam_optimizer_MCV():
                 warmup_proportion = self.population[i, 1]
                 weight_decay = self.population[i, 2]
                 batch_size = int(self.population[i, 3])
-                embed_dim = int(self.population[i, 4])
-                depth = int(self.population[i, 5])
-                num_heads = int(self.population[i, 6])
-                mlp_ratio = self.population[i, 7]
-                drop_rate = self.population[i, 8]
-                attn_drop_rate = self.population[i, 9]
-                drop_path_rate = self.population[i, 10]
-                local_up_to_layer = int(self.population[i, 11])
-                locality_strength = self.population[i, 12]
-                decoder_embed_dim = int(self.population[i, 13])
-                decoder_depth = int(self.population[i, 14])
-                decoder_num_heads = int(self.population[i, 15])
-                filter_size = int(self.population[i, 16])
-                num_filters = int(self.population[i, 17])
+                hidden_dim = int(self.population[i, 4])
 
                 torch.cuda.empty_cache()        # 清除 GPU 显存缓存
                 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')       # 使用 cuda
-                generator = Masked_ConViT_GAN_Generator(
-                    img_size=self.img_size,
-                    embed_dim=embed_dim,
-                    depth=depth,
-                    num_heads=num_heads,
-                    mlp_ratio=mlp_ratio,
-                    drop_rate=drop_rate,
-                    attn_drop_rate=attn_drop_rate,
-                    drop_path_rate=drop_path_rate,
-                    local_up_to_layer=local_up_to_layer,
-                    locality_strength=locality_strength,
-                    decoder_embed_dim=decoder_embed_dim,
-                    decoder_depth=decoder_depth,
-                    decoder_num_heads=decoder_num_heads
-                ).to(device)
-                discriminator = Masked_ConViT_GAN_Discriminator(
-                    img_size=self.img_size,
-                    filter_size=filter_size,
-                    num_filters=num_filters
-                ).to(device)
-                trainer = Trainer_MCVGAN(
-                    generator=generator,
-                    discriminator=discriminator,
+                model = Masked_ConViT(hidden_dim=hidden_dim, pretrained_MCVAE_path="Pretrain_MCVAE/pretrain_models/best_pretrain_MCVAE.pth").to(device)       # 初始化 Masked_ConViT 模型
+                trainer = Trainer_MCV(
+                    model=model,
                     lr=lr,
                     warmup_proportion=warmup_proportion,
                     weight_decay=weight_decay,
@@ -166,16 +107,16 @@ class Hyparam_optimizer_MCV():
                     epochs=self.train_mini_epochs
                 )
 
-                fid = trainer.train_HP_optim(i)
+                accuracy = trainer.train_HP_optim(i)
                 # 记录适应度值
-                self.fitness[i] = fid        # 以 FID score 作为适应度值
+                self.fitness[i] = accuracy        # 以 accuracy 作为适应度值
 
             # 记录平均适应度值
             average_fitness = np.mean(self.fitness)
             average_fitness_list.append(average_fitness)
 
             # 计算当代最优适应度值并记录
-            index = np.argmin(self.fitness)      # 最小适应度值为最优
+            index = np.argmax(self.fitness)      # 最大适应度值为最优
             current_x_best = self.population[index]      # 当代最优个体
             current_best_fitness = self.fitness[index].item()        # 当代最优适应度值
             best_fitness_list.append(current_best_fitness)      # 记录当代最优适应度值
@@ -229,20 +170,7 @@ class Hyparam_optimizer_MCV():
                     f"warmup_proportion = {x_best[1]}\n"
                     f"weight_decay = {x_best[2]}\n"
                     f"batch_size = {x_best[3]}\n"
-                    f"embed_dim = {x_best[4]}\n"
-                    f"depth = {x_best[5]}\n"
-                    f"num_heads = {x_best[6]}\n"
-                    f"mlp_ratio = {x_best[7]}\n"
-                    f"drop_rate = {x_best[8]}\n"
-                    f"attn_drop_rate = {x_best[9]}\n"
-                    f"drop_path_rate = {x_best[10]}\n"
-                    f"local_up_to_layer = {x_best[11]}\n"
-                    f"locality_strength = {x_best[12]}\n"
-                    f"decoder_embed_dim = {x_best[13]}\n"
-                    f"decoder_depth = {x_best[14]}\n"
-                    f"decoder_num_heads = {x_best[15]}\n"
-                    f"filter_size = {x_best[16]}\n"
-                    f"num_filters = {x_best[17]}\n"
+                    f"hidden_dim = {x_best[4]}\n"
                     f"--------------------End--------------------\n"
             )
 
@@ -252,20 +180,7 @@ class Hyparam_optimizer_MCV():
               f"warmup_proportion = {x_best[1]}\n"
               f"weight_decay = {x_best[2]}\n"
               f"batch_size = {x_best[3]}\n"
-              f"embed_dim = {x_best[4]}\n"
-              f"depth = {x_best[5]}\n"
-              f"num_heads = {x_best[6]}\n"
-              f"mlp_ratio = {x_best[7]}\n"
-              f"drop_rate = {x_best[8]}\n"
-              f"attn_drop_rate = {x_best[9]}\n"
-              f"drop_path_rate = {x_best[10]}\n"
-              f"local_up_to_layer = {x_best[11]}\n"
-              f"locality_strength = {x_best[12]}\n"
-              f"decoder_embed_dim = {x_best[13]}\n"
-              f"decoder_depth = {x_best[14]}\n"
-              f"decoder_num_heads = {x_best[15]}\n"
-              f"filter_size = {x_best[16]}\n"
-              f"num_filters = {x_best[17]}\n"
+              f"hidden_dim = {x_best[4]}\n"
         )
 
         # 绘制适应度曲线
@@ -287,7 +202,7 @@ class Hyparam_optimizer_MCV():
         # 归一化
         max_fitness = np.max(self.fitness)
         min_fitness = np.min(self.fitness)
-        fitness_norm = (max_fitness - self.fitness) / (max_fitness - min_fitness)        # 归一化后的种群适应度值
+        fitness_norm = (self.fitness - min_fitness) / (max_fitness - min_fitness)        # 归一化后的种群适应度值
 
         # 计算选择概率
         P = fitness_norm / np.sum(fitness_norm)

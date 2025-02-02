@@ -1,14 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchmetrics.image import FrechetInceptionDistance
-from FaceMask_Dataset import FaceMask_Dataset_pretrain
+from FaceMask_Dataset import FaceMask_Dataset
 from torch.utils.data import DataLoader
 from torchvision import transforms
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
-from Pretrain_MCVAE.Model_MCVAE import Masked_ConViT_Autoencoder
 
 
 class Trainer_MCV():
@@ -58,20 +56,19 @@ class Trainer_MCV():
         # ])
 
         # 加载数据集
-        train_dataset = FaceMask_Dataset_pretrain(img_dir="FaceMask/train", transform=transform)
-        mini_train_dataset = FaceMask_Dataset_pretrain(img_dir='FaceMask/train_mini', transform=transform)
+        train_dataset = FaceMask_Dataset(img_dir="FaceMask/train", transform=transform)
+        mini_train_dataset = FaceMask_Dataset(img_dir='FaceMask/train_mini', transform=transform)
         # train_dataset_extend = FaceMask_Dataset(img_dir='FaceMask/train', transform=transform_extend)
         # train_dataset += train_dataset_extend
-        validation_dataset = FaceMask_Dataset_pretrain(img_dir='FaceMask/validation', transform=transform)
-        mini_validation_dataset = FaceMask_Dataset_pretrain(img_dir='FaceMask/validation_mini', transform=transform)
-        test_dataset = FaceMask_Dataset_pretrain(img_dir='FaceMask/test', transform=transform)
+        validation_dataset = FaceMask_Dataset(img_dir='FaceMask/validation', transform=transform)
+        mini_validation_dataset = FaceMask_Dataset(img_dir='FaceMask/validation_mini', transform=transform)
+        test_dataset = FaceMask_Dataset(img_dir='FaceMask/test', transform=transform)
 
         # 数据加载
         self.mini_train_loader = DataLoader(dataset=mini_train_dataset, batch_size=self.batch_size, shuffle=True)
         self.train_loader = DataLoader(dataset=train_dataset, batch_size=self.batch_size, shuffle=True)
         self.validation_loader = DataLoader(dataset=validation_dataset, batch_size=self.batch_size, shuffle=False)
-        self.mini_validation_loader = DataLoader(dataset=mini_validation_dataset, batch_size=self.batch_size,
-                                                 shuffle=False)
+        self.mini_validation_loader = DataLoader(dataset=mini_validation_dataset, batch_size=self.batch_size,shuffle=False)
         self.test_loader = DataLoader(dataset=test_dataset, batch_size=self.batch_size, shuffle=False)
 
         # 使用 cuda
@@ -81,7 +78,7 @@ class Trainer_MCV():
         self.model = self.model.to(self.device)
 
         # 定义损失函数
-        self.loss_func = nn.CrossEntropyLoss()
+        self.loss_func = nn.BCELoss()
 
         # 定义优化器
         self.optimizer = optim.AdamW(
@@ -138,325 +135,176 @@ class Trainer_MCV():
             f"weight_decay : {self.weight_decay}\n"
             f"warmup_proportion : {self.warmup_proportion}\n"
             f"batch_size : {self.batch_size}\n"
-            f"embed_dim : {self.generator.embed_dim}\n"
-            f"depth : {self.generator.depth}\n"
-            f"num_heads : {self.generator.num_heads}\n"
-            f"mlp_ratio : {self.generator.mlp_ratio}\n"
-            f"drop_rate : {self.generator.drop_rate}\n"
-            f"attn_drop_rate : {self.generator.attn_drop_rate}\n"
-            f"drop_path_rate : {self.generator.drop_path_rate}\n"
-            f"local_up_to_layer : {self.generator.local_up_to_layer}\n"
-            f"locality_strength : {self.generator.locality_strength}\n"
-            f"decoder_embed_dim : {self.generator.decoder_embed_dim}\n"
-            f"decoder_depth : {self.generator.decoder_depth}\n"
-            f"decoder_num_heads : {self.generator.decoder_num_heads}\n"
-            f"filter_size : {self.discriminator.filter_size}\n"
-            f"num_filters : {self.discriminator.num_filters}\n"
+            f"hidden_dim : {self.model.hidden_dim}\n"
         )
 
         for epoch in range(1, self.epochs + 1):
-            self.generator.train()
-            self.discriminator.train()
-            epoch_g_loss = 0.0
-            epoch_d_loss = 0.0
-            epoch_mask_loss = 0.0
-            epoch_extra_loss = 0.0
-            count_train_d = 0
+            self.model.train()
+            epoch_loss = 0.0
 
             for step, (X, y) in enumerate(self.mini_train_loader):
                 X, y = X.to(self.device), y.to(self.device)
-                batch_size = X.size(0)
+                outputs = torch.sigmoid(self.model(X))
+                loss = self.loss_func(outputs, y)
+                epoch_loss += loss.item()
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+                self.lr_warmup_scheduler.step()
+                self.lr_decay_scheduler.step()
 
-                real_images = y
-                real_labels = torch.ones(batch_size, 1).to(self.device)
-                fake_labels = torch.zeros(batch_size, 1).to(self.device)
+                print(f"Epoch: {epoch}, Step: {step + 1}, Loss: {loss.item():.4f}, ")
 
-                # 每 k 步训练一次判别器
-                if step % k == 0:
-                    # discriminator 对真实样本的 loss
-                    outputs = self.discriminator(real_images)
-                    d_loss_real = self.loss_func_D(outputs, real_labels)
+            average_loss = epoch_loss / len(self.mini_train_loader)     # 每个 epoch 的平均 loss
 
-                    # discriminator 对生成样本的 loss
-                    g_loss, pred, _ = self.generator(X)
-                    fake_images = self.generator.unpatchify(pred)
-                    outputs = self.discriminator(fake_images.detach())
-                    d_loss_fake = self.loss_func_D(outputs, fake_labels)
-
-                    # discriminator 总 loss
-                    d_loss = d_loss_real + d_loss_fake
-                    epoch_d_loss += d_loss.item()
-                    self.optimizer_D.zero_grad()
-                    d_loss.backward()
-                    self.optimizer_D.step()
-                    self.lr_warmup_scheduler_D.step()
-                    self.lr_decay_scheduler_D.step()
-
-                    count_train_d += 1
-
-                # 训练生成器
-                mask_loss, pred, _ = self.generator(X)
-                fake_images = self.generator.unpatchify(pred)
-                outputs = self.discriminator(fake_images)
-                extra_loss = self.loss_func_D(outputs, real_labels)
-                g_loss = mask_loss + 0.5 * extra_loss
-                epoch_g_loss += g_loss.item()
-                epoch_mask_loss += mask_loss.item()
-                epoch_extra_loss += extra_loss.item()
-                self.optimizer_G.zero_grad()
-                g_loss.backward()
-                self.optimizer_G.step()
-                self.lr_warmup_scheduler_G.step()
-                self.lr_decay_scheduler_G.step()
-
-                print(
-                    f"Epoch: {epoch}, Step: {step + 1}, G Loss: {g_loss.item():.4f}, D Loss: {d_loss.item():.4f}, mask loss: {mask_loss.item():.4f}, extra loss: {extra_loss.item():.4f}")
-
-            average_G_loss = epoch_g_loss / len(self.mini_train_loader)
-            average_D_loss = epoch_d_loss / count_train_d
-            average_mask_loss = epoch_mask_loss / len(self.mini_train_loader)
-            average_extra_loss = epoch_extra_loss / len(self.mini_train_loader)
+            train_acc = self.get_accuracy(self.model, self.mini_train_loader)  # mini 训练集准确率
+            val_acc = self.get_accuracy(self.model, self.validation_loader)  # 验证集准确率
 
             # 记录日志
-            with open("pretrain_log.txt", "a") as f:
-                f.write(
-                    f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                    f"D Loss: {average_D_loss:.4f}\n"
-                    )
+            with open("train_log.txt", "a") as f:
+                f.write(f"Epoch: {epoch}, Loss: {average_loss:.4f}, Train acc: {train_acc * 100:.2f}%, Val acc: {val_acc * 100:.2f}%\n")
 
-            print(
-                f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                f"D Loss: {average_D_loss:.4f}")
+            print(f"Epoch: {epoch}, Loss: {average_loss:.4f}, Train acc: {train_acc * 100:.2f}%, Val acc: {val_acc * 100:.2f}%\n")
 
-        final_FID = self.get_fid_score(self.generator, self.mini_validation_loader, self.device)  # 最终 FID 分数
-
-        print(f"Final FID: {final_FID:.4f}")
+        final_acc = self.get_accuracy(self.model, self.validation_loader)  # 最终 accuracy
+        print(f"Final accuracy: {final_acc * 100:.2f}")
 
         # 记录日志
-        with open("pretrain_log.txt", "a") as f:
+        with open("train_log.txt", "a") as f:
             current_time = datetime.now()
             f.write(f"\nresult:\n"
-                    f"Final FID: {final_FID:.4f}\n"
+                    f"Final accuracy: {final_acc:.4f}\n"
                     f"\nHyperparameters: \n"
-                    f"img_size : {self.img_size}\n"
                     f"lr : {self.lr}\n"
                     f"weight_decay : {self.weight_decay}\n"
                     f"warmup_proportion : {self.warmup_proportion}\n"
                     f"batch_size : {self.batch_size}\n"
-                    f"embed_dim : {self.generator.embed_dim}\n"
-                    f"depth : {self.generator.depth}\n"
-                    f"num_heads : {self.generator.num_heads}\n"
-                    f"mlp_ratio : {self.generator.mlp_ratio}\n"
-                    f"drop_rate : {self.generator.drop_rate}\n"
-                    f"attn_drop_rate : {self.generator.attn_drop_rate}\n"
-                    f"drop_path_rate : {self.generator.drop_path_rate}\n"
-                    f"local_up_to_layer : {self.generator.local_up_to_layer}\n"
-                    f"locality_strength : {self.generator.locality_strength}\n"
-                    f"decoder_embed_dim : {self.generator.decoder_embed_dim}\n"
-                    f"decoder_depth : {self.generator.decoder_depth}\n"
-                    f"decoder_num_heads : {self.generator.decoder_num_heads}\n"
-                    f"filter_size : {self.discriminator.filter_size}\n"
-                    f"num_filters : {self.discriminator.num_filters}\n"
+                    f"hidden_dim : {self.model.hidden_dim}\n"
                     f"\nEnd time: {current_time}\n"
                     f"--------------------End--------------------\n"
                     )
 
-        return final_FID
+        return final_acc
 
-    # 获取 FID 分数
-    def get_fid_score(self, model, data_loader, device):
+    # 获取准确率
+    def get_accuracy(self, model, data_loader):
         '''
-        获取 FID 分数
-
+        获取准确率
         Args:
-            :param model: 模型
-            :param data_loader: 数据加载器
-            :param device: 设备
-        :return: FID 分数
-        '''
-        fid_metric = FrechetInceptionDistance(feature=2048).to(device)
-        model.eval()
+            :param model:
+            :param data_loader:
 
+        :return: 准确率
+        '''
+        model.eval()
+        correct = 0
+        total = 0
         with torch.no_grad():
             for X, y in data_loader:
-                X, y = X.to(device), y.to(device)
-                _, pred, _ = model(X)
-                fake_images = self.generator.unpatchify(pred)
-                real_images = y
-                fake_images = fake_images.to(torch.uint8)
-                real_images = real_images.to(torch.uint8)
-                fid_metric.update(fake_images, real=False)
-                fid_metric.update(real_images, real=True)
+                X, y = X.to(self.device), y.to(self.device)
 
-        fid_score = fid_metric.compute().item()
+                outputs = torch.sigmoid(model(X))
+                predicted = (outputs > 0.5).float()
 
-        return fid_score
+                total += y.size(0)
+                correct += (predicted == y).sum().item()
+
+        accuracy = correct / total  # 计算准确率
+
+        return accuracy
 
     # 训练
-    def train(self, k=10):
+    def train(self):
         '''
         训练
-
-        :param k: 判别器每 k step 训练一次
         '''
         # 记录日志
-        with open("pretrain_log.txt", "a") as f:
+        with open("train_log.txt", "a") as f:
             current_time = datetime.now()
             f.write(f"\n--------------------Start train-------------------\n"
                     f"Start time: {current_time}\n"
                     f"\nHyperparameters:\n"
-                    f"img_size : {self.img_size}\n"
                     f"lr : {self.lr}\n"
                     f"weight_decay : {self.weight_decay}\n"
                     f"warmup_proportion : {self.warmup_proportion}\n"
                     f"batch_size : {self.batch_size}\n"
-                    f"embed_dim : {self.generator.embed_dim}\n"
-                    f"depth : {self.generator.depth}\n"
-                    f"num_heads : {self.generator.num_heads}\n"
-                    f"mlp_ratio : {self.generator.mlp_ratio}\n"
-                    f"drop_rate : {self.generator.drop_rate}\n"
-                    f"attn_drop_rate : {self.generator.attn_drop_rate}\n"
-                    f"drop_path_rate : {self.generator.drop_path_rate}\n"
-                    f"local_up_to_layer : {self.generator.local_up_to_layer}\n"
-                    f"locality_strength : {self.generator.locality_strength}\n"
-                    f"decoder_embed_dim : {self.generator.decoder_embed_dim}\n"
-                    f"decoder_depth : {self.generator.decoder_depth}\n"
-                    f"decoder_num_heads : {self.generator.decoder_num_heads}\n"
-                    f"filter_size : {self.discriminator.filter_size}\n"
-                    f"num_filters : {self.discriminator.num_filters}\n"
+                    f"hidden_dim : {self.model.hidden_dim}\n"
                     )
 
-        print(f"img_size : {self.img_size}\n"
-              f"lr : {self.lr}\n"
+        print(f"lr : {self.lr}\n"
               f"weight_decay : {self.weight_decay}\n"
               f"warmup_proportion : {self.warmup_proportion}\n"
               f"batch_size : {self.batch_size}\n"
-              f"embed_dim : {self.generator.embed_dim}\n"
-              f"depth : {self.generator.depth}\n"
-              f"num_heads : {self.generator.num_heads}\n"
-              f"mlp_ratio : {self.generator.mlp_ratio}\n"
-              f"drop_rate : {self.generator.drop_rate}\n"
-              f"attn_drop_rate : {self.generator.attn_drop_rate}\n"
-              f"drop_path_rate : {self.generator.drop_path_rate}\n"
-              f"local_up_to_layer : {self.generator.local_up_to_layer}\n"
-              f"locality_strength : {self.generator.locality_strength}\n"
-              f"decoder_embed_dim : {self.generator.decoder_embed_dim}\n"
-              f"decoder_depth : {self.generator.decoder_depth}\n"
-              f"decoder_num_heads : {self.generator.decoder_num_heads}\n"
-              f"filter_size : {self.discriminator.filter_size}\n"
-              f"num_filters : {self.discriminator.num_filters}\n"
-              )
+              f"hidden_dim : {self.model.hidden_dim}\n"
+        )
 
-        train_fid_list = []
-        val_fid_list = []
+        train_acc_list = []
+        test_acc_list = []
 
         for epoch in range(1, self.epochs + 1):
-            self.generator.train()
-            self.discriminator.train()
-            epoch_g_loss = 0.0
-            epoch_d_loss = 0.0
-            epoch_mask_loss = 0.0
-            epoch_extra_loss = 0.0
+            self.model.train()
+            epoch_loss = 0.0
 
             for step, (X, y) in enumerate(self.train_loader):
                 X, y = X.to(self.device), y.to(self.device)
-                batch_size = X.size(0)
+                outputs = torch.sigmoid(self.model(X))
+                loss = self.loss_func(outputs, y)
+                epoch_loss += loss.item()
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+                self.lr_warmup_scheduler.step()
+                self.lr_decay_scheduler.step()
 
-                real_images = y
-                real_labels = torch.ones(batch_size, 1).to(self.device)
-                fake_labels = torch.zeros(batch_size, 1).to(self.device)
+                print(f"Epoch: {epoch}, Step: {step + 1}, Loss: {loss.item():.4f}, ")
 
-                # 每 k 步训练一次判别器
-                if step % k == 0:
-                    # discriminator 对真实样本的 loss
-                    outputs = self.discriminator(real_images)
-                    d_loss_real = self.loss_func_D(outputs, real_labels)
+            average_loss = epoch_loss / len(self.train_loader)  # 每个 epoch 的平均 loss
 
-                    # discriminator 对生成样本的 loss
-                    g_loss, pred, _ = self.generator(X)
-                    fake_images = self.generator.unpatchify(pred)
-                    outputs = self.discriminator(fake_images.detach())
-                    d_loss_fake = self.loss_func_D(outputs, fake_labels)
-
-                    # discriminator 总 loss
-                    d_loss = d_loss_real + d_loss_fake
-                    epoch_d_loss += d_loss.item()
-                    self.optimizer_D.zero_grad()
-                    d_loss.backward()
-                    self.optimizer_D.step()
-                    self.lr_warmup_scheduler_D.step()
-                    self.lr_decay_scheduler_D.step()
-
-                # 训练生成器
-                mask_loss, pred, _ = self.generator(X)
-                fake_images = self.generator.unpatchify(pred)
-                outputs = self.discriminator(fake_images)
-                extra_loss = self.loss_func_D(outputs, real_labels)
-                g_loss = mask_loss + 0.5 * extra_loss
-                epoch_g_loss += g_loss.item()
-                epoch_mask_loss += mask_loss.item()
-                epoch_extra_loss += extra_loss.item()
-                self.optimizer_G.zero_grad()
-                g_loss.backward()
-                self.optimizer_G.step()
-                self.lr_warmup_scheduler_G.step()
-                self.lr_decay_scheduler_G.step()
-
-                # print(f"Epoch: {epoch}, Step: {step + 1}, G Loss: {g_loss.item():.4f}, D Loss: {d_loss.item():.4f}, mask loss: {mask_loss.item():.4f}, extra loss: {extra_loss.item():.4f}")
-
-            average_G_loss = epoch_g_loss / len(self.train_loader)
-            average_D_loss = epoch_d_loss / len(self.train_loader)
-            average_mask_loss = epoch_mask_loss / len(self.train_loader)
-            average_extra_loss = epoch_extra_loss / len(self.train_loader)
-
-            train_FID = self.get_fid_score(self.generator, self.train_loader, self.device)
-            train_fid_list.append(train_FID)
-            val_FID = self.get_fid_score(self.generator, self.validation_loader, self.device)
-            val_fid_list.append(val_FID)
+            train_acc = self.get_accuracy(self.model, self.train_loader)  # 训练集准确率
+            test_acc = self.get_accuracy(self.model, self.test_loader)  # 测试集准确率
+            train_acc_list.append(train_acc)
+            test_acc_list.append(test_acc)
 
             # 记录日志
-            with open("pretrain_log.txt", "a") as f:
-                f.write(
-                    f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                    f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}\n"
+            with open("train_log.txt", "a") as f:
+                f.write(f"Epoch: {epoch}, Loss: {average_loss:.4f}, Train acc: {train_acc * 100:.2f}%, Test acc: {test_acc * 100:.2f}%\n")
+
+            print(f"Epoch: {epoch}, Loss: {average_loss:.4f}, Train acc: {train_acc * 100:.2f}%, Test acc: {test_acc * 100:.2f}%\n")
+
+        final_acc = self.get_accuracy(self.model, self.test_loader)  # 最终 accuracy
+        print(f"Final accuracy: {final_acc * 100:.2f}")
+
+        # 记录日志
+        with open("train_log.txt", "a") as f:
+            current_time = datetime.now()
+            f.write(f"\nresult:\n"
+                    f"Final accuracy: {final_acc:.4f}\n"
+                    f"\nHyperparameters: \n"
+                    f"lr : {self.lr}\n"
+                    f"weight_decay : {self.weight_decay}\n"
+                    f"warmup_proportion : {self.warmup_proportion}\n"
+                    f"batch_size : {self.batch_size}\n"
+                    f"hidden_dim : {self.model.hidden_dim}\n"
+                    f"\nEnd time: {current_time}\n"
+                    f"--------------------End--------------------\n"
                     )
 
-            print(
-                f"Epoch: {epoch}, G Loss: {average_G_loss:.4f}(Mask Loss: {average_mask_loss:.4f}, Extra Loss: {average_extra_loss:.4f}), "
-                f"D Loss: {average_D_loss:.4f}, Train FID: {train_FID:.4f}, Val FID: {val_FID:.4f}")
-
-        final_FID = self.get_fid_score(self.generator, self.validation_loader, self.device)  # 最终 FID 分数
-
-        # 将结果写入到文件中进行记录
-        with open("pretrain_log.txt", "a") as f:
-            f.write(f"Final Val FID: {final_FID:.4f}\n")
-
-        print(f"Final Val FID: {final_FID:.4f}")
-
-        # 绘制 FID 分数曲线
+        # 绘制 accuracy 曲线
         x = np.arange(self.epochs)
-        plt.plot(x, train_fid_list, label='train', markevery=2)
-        plt.plot(x, val_fid_list, label='val', markevery=2)
+        plt.plot(x, train_acc_list, label='train', markevery=2)
+        plt.plot(x, test_acc_list, label='test', markevery=2)
         plt.xlabel("epochs")
-        plt.ylabel("FID")
+        plt.ylabel("accuracy")
         plt.legend(loc='lower right')
         plt.show()
 
-    def save_generator(self):
+    # 保存 model 参数
+    def save_model(self):
         '''
-        保存 generator 模型参数
+        保存 model 模型参数
         '''
-        torch.save(self.generator.state_dict(), "pretrain_models/best_pretrain_generator.pth")
-        file_path = "pretrain_models/best_pretrain_generator.pth"
-        print(f"Model parameters saved to {file_path}")
-
-    def save_MCVAE(self):
-        '''
-        保存 MCV - AE 模型参数
-        '''
-        MCV_AE = Masked_ConViT_Autoencoder(self.generator)
-        torch.save(MCV_AE.state_dict(), "pretrain_models/best_pretrain_MCVAE.pth")
-        file_path = "pretrain_models/best_pretrain_MCVAE.pth"
+        torch.save(self.model.state_dict(), "models/best_model.pth")
+        file_path = "models/best_model.pth"
         print(f"Model parameters saved to {file_path}")
 
 

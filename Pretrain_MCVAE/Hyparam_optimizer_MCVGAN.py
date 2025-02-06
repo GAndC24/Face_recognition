@@ -193,11 +193,11 @@ class Hyparam_optimizer_MCVGAN():
             # 轮盘赌选择
             self.roulette_wheel_selection()
 
-            # # 单点交叉
-            # self.single_point_crossover()
+            # 单点交叉
+            self.single_point_crossover()
 
-            # 两点交叉
-            self.two_point_crossover()
+            # # 两点交叉
+            # self.two_point_crossover()
 
             # # 均匀交叉
             # self.uniform_crossover()

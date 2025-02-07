@@ -193,11 +193,11 @@ class Hyparam_optimizer_MCVGAN():
             # 轮盘赌选择
             self.roulette_wheel_selection()
 
-            # 单点交叉
-            self.single_point_crossover()
+            # # 单点交叉
+            # self.single_point_crossover()
 
-            # # 两点交叉
-            # self.two_point_crossover()
+            # 两点交叉
+            self.two_point_crossover()
 
             # # 均匀交叉
             # self.uniform_crossover()
@@ -274,8 +274,8 @@ class Hyparam_optimizer_MCVGAN():
         plt.plot(x, average_fitness_list, label='average', markevery=2)
         plt.xlabel("Generation")
         plt.ylabel("Fitness")
-        plt.ylim(0, 1.0)
         plt.legend(loc='lower right')
+        plt.savefig('./fitness_images/Fitness.png')
         plt.show()
 
         return x_best

@@ -7079,3 +7079,2068 @@ num_filters : 32
 End time: 2025-02-02 23:26:12.983755
 --------------------End--------------------
 
+--------------------Start Hyperparameter optimize--------------------
+Start Time : 2025-02-07 01:13:28.732560
+
+Generation: 1
+Start Time : 2025-02-07 01:13:28.732560
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:13:30.774084
+
+Epoch: 1, G Loss: 2.9891(Mask Loss: 2.1754, Extra Loss: 1.6273), D Loss: 2.1936
+Epoch: 2, G Loss: 1.9905(Mask Loss: 1.6509, Extra Loss: 0.6792), D Loss: 1.6352
+Epoch: 3, G Loss: 1.7962(Mask Loss: 1.4355, Extra Loss: 0.7213), D Loss: 1.4435
+
+result:
+Final FID: 269.8985
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0008625931626299506
+weight_decay : 0.0005889331301002395
+warmup_proportion : 0.00010738001819172397
+batch_size : 16
+embed_dim : 512
+depth : 29
+num_heads : 8
+mlp_ratio : 8.0
+drop_rate : 0.5
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 12
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 32
+
+End time: 2025-02-07 01:16:14.327601
+--------------------End--------------------
+
+Index: 2
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:16:15.042304
+
+Epoch: 1, G Loss: 4.0510(Mask Loss: 2.4957, Extra Loss: 3.1107), D Loss: 0.3006
+Epoch: 2, G Loss: 4.8037(Mask Loss: 2.6822, Extra Loss: 4.2429), D Loss: 0.6890
+Epoch: 3, G Loss: 5.7672(Mask Loss: 2.9389, Extra Loss: 5.6565), D Loss: 0.7642
+
+result:
+Final FID: 392.4947
+
+Hyperparameters: 
+img_size : 128
+lr : 6.513025299733998e-05
+weight_decay : 0.0007150763673467586
+warmup_proportion : 0.005693521206674499
+batch_size : 32
+embed_dim : 256
+depth : 41
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.5
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 512
+decoder_depth : 4
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 128
+
+End time: 2025-02-07 01:17:44.414934
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:17:45.601838
+
+Epoch: 1, G Loss: 4.7414(Mask Loss: 2.3221, Extra Loss: 4.8385), D Loss: 1.2239
+Epoch: 2, G Loss: 3.6303(Mask Loss: 2.0826, Extra Loss: 3.0954), D Loss: 1.4093
+Epoch: 3, G Loss: 3.0668(Mask Loss: 1.8483, Extra Loss: 2.4370), D Loss: 1.9346
+
+result:
+Final FID: 285.1414
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00022177675118899488
+weight_decay : 0.0005680615325034109
+warmup_proportion : 0.002770157809656829
+batch_size : 32
+embed_dim : 512
+depth : 43
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 64
+
+End time: 2025-02-07 01:19:15.773706
+--------------------End--------------------
+
+Index: 4
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:19:17.858961
+
+Epoch: 1, G Loss: 4.6217(Mask Loss: 2.3267, Extra Loss: 4.5900), D Loss: 3.7017
+Epoch: 2, G Loss: 5.0043(Mask Loss: 2.3275, Extra Loss: 5.3535), D Loss: 2.1060
+Epoch: 3, G Loss: 8.0773(Mask Loss: 2.3372, Extra Loss: 11.4803), D Loss: 2.1104
+
+result:
+Final FID: 347.9439
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009704373695690934
+weight_decay : 0.0006726321397797914
+warmup_proportion : 0.006454725798144087
+batch_size : 32
+embed_dim : 768
+depth : 32
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 12
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 128
+
+End time: 2025-02-07 01:21:05.787686
+--------------------End--------------------
+
+Index: 5
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:21:06.789934
+
+Epoch: 1, G Loss: 3.6600(Mask Loss: 2.2825, Extra Loss: 2.7550), D Loss: 1.2408
+Epoch: 2, G Loss: 3.6591(Mask Loss: 2.4187, Extra Loss: 2.4808), D Loss: 2.8976
+Epoch: 3, G Loss: 3.2212(Mask Loss: 2.2945, Extra Loss: 1.8534), D Loss: 3.0634
+
+result:
+Final FID: 489.6561
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00018968263904587418
+weight_decay : 0.0001300437759711992
+warmup_proportion : 0.0027017724780379632
+batch_size : 32
+embed_dim : 768
+depth : 13
+num_heads : 32
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.1
+local_up_to_layer : 8
+locality_strength : 1.5
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 01:22:30.850504
+--------------------End--------------------
+
+Index: 6
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:22:31.683668
+
+Epoch: 1, G Loss: 2.8387(Mask Loss: 2.2540, Extra Loss: 1.1694), D Loss: 3.1007
+Epoch: 2, G Loss: 1.8384(Mask Loss: 1.5527, Extra Loss: 0.5713), D Loss: 2.4251
+Epoch: 3, G Loss: 1.5347(Mask Loss: 1.2052, Extra Loss: 0.6589), D Loss: 1.5555
+
+result:
+Final FID: 233.8129
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0005686372077726134
+weight_decay : 0.0001444857482574477
+warmup_proportion : 0.0031662235050543604
+batch_size : 16
+embed_dim : 512
+depth : 9
+num_heads : 8
+mlp_ratio : 4.0
+drop_rate : 0.3
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 01:24:25.398869
+--------------------End--------------------
+
+Index: 7
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:24:26.809864
+
+Epoch: 1, G Loss: 4.4479(Mask Loss: 2.5697, Extra Loss: 3.7564), D Loss: 1.8184
+Epoch: 2, G Loss: 3.4314(Mask Loss: 2.3150, Extra Loss: 2.2327), D Loss: 3.1731
+Epoch: 3, G Loss: 2.8737(Mask Loss: 2.1729, Extra Loss: 1.4016), D Loss: 2.9776
+
+result:
+Final FID: 390.4972
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0006333533435035425
+weight_decay : 0.0009680010794465753
+warmup_proportion : 0.003152039864023291
+batch_size : 32
+embed_dim : 512
+depth : 28
+num_heads : 16
+mlp_ratio : 4.0
+drop_rate : 0.5
+attn_drop_rate : 0.1
+drop_path_rate : 0.1
+local_up_to_layer : 8
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 01:25:58.336195
+--------------------End--------------------
+
+Index: 8
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:25:58.914710
+
+Epoch: 1, G Loss: 3.2848(Mask Loss: 2.1564, Extra Loss: 2.2568), D Loss: 3.0645
+Epoch: 2, G Loss: 1.8963(Mask Loss: 1.5560, Extra Loss: 0.6806), D Loss: 2.6507
+Epoch: 3, G Loss: 1.5328(Mask Loss: 1.2181, Extra Loss: 0.6293), D Loss: 2.0591
+
+result:
+Final FID: 205.4634
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 01:28:13.353496
+--------------------End--------------------
+
+Index: 9
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:28:13.788658
+
+Epoch: 1, G Loss: 2.5602(Mask Loss: 2.1023, Extra Loss: 0.9158), D Loss: 1.0019
+Epoch: 2, G Loss: 2.5145(Mask Loss: 2.1011, Extra Loss: 0.8267), D Loss: 1.5296
+Epoch: 3, G Loss: 2.4155(Mask Loss: 2.0853, Extra Loss: 0.6604), D Loss: 1.9893
+
+result:
+Final FID: 435.4808
+
+Hyperparameters: 
+img_size : 128
+lr : 1.7798580905159656e-05
+weight_decay : 0.0007745459950901827
+warmup_proportion : 0.002661375326726714
+batch_size : 16
+embed_dim : 256
+depth : 20
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.1
+attn_drop_rate : 0.3
+drop_path_rate : 0.1
+local_up_to_layer : 8
+locality_strength : 1.5
+decoder_embed_dim : 256
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 32
+
+End time: 2025-02-07 01:30:13.182199
+--------------------End--------------------
+
+Index: 10
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:30:15.883799
+
+Epoch: 1, G Loss: 4.1001(Mask Loss: 2.5254, Extra Loss: 3.1495), D Loss: 1.7168
+Epoch: 2, G Loss: 2.4823(Mask Loss: 2.0507, Extra Loss: 0.8633), D Loss: 2.6977
+Epoch: 3, G Loss: 1.8014(Mask Loss: 1.4679, Extra Loss: 0.6669), D Loss: 1.6955
+
+result:
+Final FID: 264.6255
+
+Hyperparameters: 
+img_size : 128
+lr : 0.000701510968372871
+weight_decay : 0.00044696638642682384
+warmup_proportion : 0.004222562112494562
+batch_size : 32
+embed_dim : 512
+depth : 30
+num_heads : 8
+mlp_ratio : 8.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 12
+locality_strength : 1.0
+decoder_embed_dim : 768
+decoder_depth : 8
+decoder_num_heads : 8
+filter_size : 5
+num_filters : 32
+
+End time: 2025-02-07 01:32:26.257047
+--------------------End--------------------
+
+Index: 11
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:32:27.126570
+
+Epoch: 1, G Loss: 3.5756(Mask Loss: 2.1942, Extra Loss: 2.7628), D Loss: 2.1673
+Epoch: 2, G Loss: 2.5230(Mask Loss: 1.8501, Extra Loss: 1.3457), D Loss: 3.6192
+Epoch: 3, G Loss: 1.9584(Mask Loss: 1.5665, Extra Loss: 0.7839), D Loss: 2.2159
+
+result:
+Final FID: 244.4632
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00028518880177608766
+weight_decay : 8.420433246124919e-05
+warmup_proportion : 0.001207360733930443
+batch_size : 32
+embed_dim : 512
+depth : 13
+num_heads : 32
+mlp_ratio : 4.0
+drop_rate : 0.4
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 8
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 01:33:47.354738
+--------------------End--------------------
+
+Index: 12
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:33:51.928198
+
+Epoch: 1, G Loss: 4.0240(Mask Loss: 2.3059, Extra Loss: 3.4362), D Loss: 1.4333
+Epoch: 2, G Loss: 3.6015(Mask Loss: 2.0390, Extra Loss: 3.1251), D Loss: 0.4076
+Epoch: 3, G Loss: 4.1600(Mask Loss: 2.0200, Extra Loss: 4.2800), D Loss: 0.2903
+
+result:
+Final FID: 609.2237
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009815475569832043
+weight_decay : 0.0003664982176640048
+warmup_proportion : 0.004148613739758056
+batch_size : 32
+embed_dim : 1024
+depth : 17
+num_heads : 16
+mlp_ratio : 8.0
+drop_rate : 0.2
+attn_drop_rate : 0.2
+drop_path_rate : 0.1
+local_up_to_layer : 8
+locality_strength : 1.5
+decoder_embed_dim : 768
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 5
+num_filters : 64
+
+End time: 2025-02-07 01:51:24.837740
+--------------------End--------------------
+
+Index: 13
+
+--------------------Start train-------------------
+Start time: 2025-02-07 01:51:30.226142
+
+Epoch: 1, G Loss: 1.9436(Mask Loss: 1.7289, Extra Loss: 0.4294), D Loss: 3.4831
+Epoch: 2, G Loss: 1.4076(Mask Loss: 1.2653, Extra Loss: 0.2847), D Loss: 3.8808
+Epoch: 3, G Loss: 1.3079(Mask Loss: 1.0605, Extra Loss: 0.4947), D Loss: 2.2814
+
+result:
+Final FID: 216.7590
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0002431383531148099
+weight_decay : 0.0008503344853321069
+warmup_proportion : 0.004141104169568538
+batch_size : 32
+embed_dim : 1024
+depth : 17
+num_heads : 32
+mlp_ratio : 8.0
+drop_rate : 0.1
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 02:48:04.238961
+--------------------End--------------------
+
+Index: 14
+
+--------------------Start train-------------------
+Start time: 2025-02-07 02:48:06.215047
+
+Epoch: 1, G Loss: 4.4498(Mask Loss: 2.5270, Extra Loss: 3.8458), D Loss: 2.2459
+Epoch: 2, G Loss: 2.6212(Mask Loss: 1.9515, Extra Loss: 1.3393), D Loss: 2.5217
+Epoch: 3, G Loss: 2.1219(Mask Loss: 1.6115, Extra Loss: 1.0207), D Loss: 1.6578
+
+result:
+Final FID: 250.3551
+
+Hyperparameters: 
+img_size : 128
+lr : 0.000498934971050939
+weight_decay : 0.0005029536582715161
+warmup_proportion : 0.00896111737672889
+batch_size : 16
+embed_dim : 768
+depth : 11
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.5
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:05:19.474758
+--------------------End--------------------
+
+Index: 15
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:05:26.438332
+
+Epoch: 1, G Loss: 3.5558(Mask Loss: 2.4434, Extra Loss: 2.2248), D Loss: 2.8524
+Epoch: 2, G Loss: 1.9964(Mask Loss: 1.6065, Extra Loss: 0.7798), D Loss: 1.9887
+Epoch: 3, G Loss: 1.8264(Mask Loss: 1.3899, Extra Loss: 0.8730), D Loss: 1.7031
+
+result:
+Final FID: 230.0176
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00032877098232524685
+weight_decay : 9.267374901985791e-05
+warmup_proportion : 0.007983972391269918
+batch_size : 16
+embed_dim : 1024
+depth : 24
+num_heads : 8
+mlp_ratio : 8.0
+drop_rate : 0.5
+attn_drop_rate : 0.3
+drop_path_rate : 0.3
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:08:52.298274
+--------------------End--------------------
+
+Average Fitness: 324.3889
+Best Fitness: 205.4634
+
+Generation: 2
+Start Time : 2025-02-07 03:08:52.303422
+
+Index: 2
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:08:53.576361
+
+Epoch: 1, G Loss: 5.1260(Mask Loss: 2.5793, Extra Loss: 5.0935), D Loss: 0.7354
+Epoch: 2, G Loss: 5.5582(Mask Loss: 2.7426, Extra Loss: 5.6311), D Loss: 0.9428
+Epoch: 3, G Loss: 6.0570(Mask Loss: 2.8203, Extra Loss: 6.4735), D Loss: 1.1123
+
+result:
+Final FID: 442.6847
+
+Hyperparameters: 
+img_size : 128
+lr : 6.513025299733998e-05
+weight_decay : 0.0007150763673467586
+warmup_proportion : 0.005693521206674499
+batch_size : 32
+embed_dim : 256
+depth : 41
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.5
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 512
+decoder_depth : 4
+decoder_num_heads : 8
+filter_size : 5
+num_filters : 128
+
+End time: 2025-02-07 03:10:32.756013
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:10:35.072636
+
+Epoch: 1, G Loss: 3.0482(Mask Loss: 2.1251, Extra Loss: 1.8462), D Loss: 2.1198
+Epoch: 2, G Loss: 1.8249(Mask Loss: 1.4791, Extra Loss: 0.6916), D Loss: 1.5507
+Epoch: 3, G Loss: 1.7627(Mask Loss: 1.4163, Extra Loss: 0.6928), D Loss: 1.5304
+
+result:
+Final FID: 282.4303
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0008625931626299506
+weight_decay : 0.0005889331301002395
+warmup_proportion : 0.00010738001819172397
+batch_size : 16
+embed_dim : 512
+depth : 29
+num_heads : 8
+mlp_ratio : 8.0
+drop_rate : 0.5
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 12
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 32
+
+End time: 2025-02-07 03:12:58.498464
+--------------------End--------------------
+
+Index: 5
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:13:04.596298
+
+Epoch: 1, G Loss: 1.9262(Mask Loss: 1.7293, Extra Loss: 0.3939), D Loss: 3.5604
+Epoch: 2, G Loss: 1.4749(Mask Loss: 1.3220, Extra Loss: 0.3058), D Loss: 4.2862
+Epoch: 3, G Loss: 1.3009(Mask Loss: 1.0400, Extra Loss: 0.5217), D Loss: 2.1234
+
+result:
+Final FID: 226.3842
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0002431383531148099
+weight_decay : 0.0008503344853321069
+warmup_proportion : 0.004141104169568538
+batch_size : 32
+embed_dim : 1024
+depth : 17
+num_heads : 32
+mlp_ratio : 8.0
+drop_rate : 0.1
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 03:15:06.888662
+--------------------End--------------------
+
+Index: 6
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:15:09.344699
+
+Epoch: 1, G Loss: 4.0595(Mask Loss: 2.5385, Extra Loss: 3.0420), D Loss: 1.9228
+Epoch: 2, G Loss: 2.5832(Mask Loss: 2.0541, Extra Loss: 1.0581), D Loss: 2.5735
+Epoch: 3, G Loss: 1.7936(Mask Loss: 1.4642, Extra Loss: 0.6589), D Loss: 1.6693
+
+result:
+Final FID: 314.6386
+
+Hyperparameters: 
+img_size : 128
+lr : 0.000701510968372871
+weight_decay : 0.00044696638642682384
+warmup_proportion : 0.004222562112494562
+batch_size : 32
+embed_dim : 768
+depth : 32
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 12
+locality_strength : 1.0
+decoder_embed_dim : 768
+decoder_depth : 8
+decoder_num_heads : 8
+filter_size : 5
+num_filters : 32
+
+End time: 2025-02-07 03:17:00.250497
+--------------------End--------------------
+
+Index: 7
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:17:01.647122
+
+Epoch: 1, G Loss: 4.0753(Mask Loss: 2.1788, Extra Loss: 3.7931), D Loss: 1.9434
+Epoch: 2, G Loss: 2.8689(Mask Loss: 1.9388, Extra Loss: 1.8603), D Loss: 2.1766
+Epoch: 3, G Loss: 2.5742(Mask Loss: 1.8281, Extra Loss: 1.4923), D Loss: 1.7317
+
+result:
+Final FID: 329.6283
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00022177675118899488
+weight_decay : 0.0005680615325034109
+warmup_proportion : 0.002770157809656829
+batch_size : 32
+embed_dim : 512
+depth : 43
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 64
+
+End time: 2025-02-07 03:19:50.709923
+--------------------End--------------------
+
+Index: 8
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:19:52.733440
+
+Epoch: 1, G Loss: 4.7184(Mask Loss: 2.4914, Extra Loss: 4.4539), D Loss: 1.5644
+Epoch: 2, G Loss: 4.2043(Mask Loss: 2.5164, Extra Loss: 3.3757), D Loss: 1.3552
+Epoch: 3, G Loss: 3.4098(Mask Loss: 2.2787, Extra Loss: 2.2622), D Loss: 2.3745
+
+result:
+Final FID: 354.5744
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0006333533435035425
+weight_decay : 0.0009680010794465753
+warmup_proportion : 0.003152039864023291
+batch_size : 32
+embed_dim : 512
+depth : 28
+num_heads : 16
+mlp_ratio : 4.0
+drop_rate : 0.5
+attn_drop_rate : 0.1
+drop_path_rate : 0.1
+local_up_to_layer : 8
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:21:23.115169
+--------------------End--------------------
+
+Index: 10
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:21:25.218947
+
+Epoch: 1, G Loss: 4.6174(Mask Loss: 2.3025, Extra Loss: 4.6299), D Loss: 3.9364
+Epoch: 2, G Loss: 3.5683(Mask Loss: 2.1161, Extra Loss: 2.9045), D Loss: 1.6521
+Epoch: 3, G Loss: 5.4813(Mask Loss: 2.2465, Extra Loss: 6.4696), D Loss: 2.8113
+
+result:
+Final FID: 354.9084
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009704373695690934
+weight_decay : 0.0006726321397797914
+warmup_proportion : 0.006454725798144087
+batch_size : 32
+embed_dim : 768
+depth : 32
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 12
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 128
+
+End time: 2025-02-07 03:23:10.788590
+--------------------End--------------------
+
+Index: 11
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:23:12.350019
+
+Epoch: 1, G Loss: 2.5817(Mask Loss: 2.1252, Extra Loss: 0.9129), D Loss: 3.4550
+Epoch: 2, G Loss: 1.7222(Mask Loss: 1.4521, Extra Loss: 0.5401), D Loss: 2.2336
+Epoch: 3, G Loss: 1.5877(Mask Loss: 1.2705, Extra Loss: 0.6345), D Loss: 1.6273
+
+result:
+Final FID: 269.3376
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0005686372077726134
+weight_decay : 0.0005889331301002395
+warmup_proportion : 0.00010738001819172397
+batch_size : 16
+embed_dim : 512
+depth : 29
+num_heads : 8
+mlp_ratio : 4.0
+drop_rate : 0.3
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 03:25:30.983439
+--------------------End--------------------
+
+Average Fitness: 285.4115
+Best Fitness: 205.4634
+
+Generation: 3
+Start Time : 2025-02-07 03:25:30.994402
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:25:31.595670
+
+Epoch: 1, G Loss: 3.2679(Mask Loss: 2.2263, Extra Loss: 2.0831), D Loss: 3.7372
+Epoch: 2, G Loss: 1.9321(Mask Loss: 1.5955, Extra Loss: 0.6732), D Loss: 2.6718
+Epoch: 3, G Loss: 1.7067(Mask Loss: 1.3746, Extra Loss: 0.6642), D Loss: 2.1855
+
+result:
+Final FID: 249.6528
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:27:31.221132
+--------------------End--------------------
+
+Index: 2
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:27:35.258234
+
+Epoch: 1, G Loss: 1.9706(Mask Loss: 1.7704, Extra Loss: 0.4004), D Loss: 3.6051
+Epoch: 2, G Loss: 1.4620(Mask Loss: 1.3065, Extra Loss: 0.3110), D Loss: 4.1804
+Epoch: 3, G Loss: 1.2943(Mask Loss: 1.0352, Extra Loss: 0.5182), D Loss: 2.1608
+
+result:
+Final FID: 227.3187
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0002431383531148099
+weight_decay : 0.0008503344853321069
+warmup_proportion : 0.004141104169568538
+batch_size : 32
+embed_dim : 1024
+depth : 17
+num_heads : 32
+mlp_ratio : 8.0
+drop_rate : 0.1
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 03:29:39.315500
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:29:40.702852
+
+Epoch: 1, G Loss: 4.9457(Mask Loss: 2.3919, Extra Loss: 5.1075), D Loss: 1.1207
+Epoch: 2, G Loss: 3.6821(Mask Loss: 2.1070, Extra Loss: 3.1501), D Loss: 1.8267
+Epoch: 3, G Loss: 2.9972(Mask Loss: 1.8801, Extra Loss: 2.2343), D Loss: 1.6672
+
+result:
+Final FID: 266.4163
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00022177675118899488
+weight_decay : 0.0005680615325034109
+warmup_proportion : 0.002770157809656829
+batch_size : 32
+embed_dim : 512
+depth : 43
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 64
+
+End time: 2025-02-07 03:31:13.163872
+--------------------End--------------------
+
+Index: 4
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:31:14.715044
+
+Epoch: 1, G Loss: 2.6839(Mask Loss: 2.1510, Extra Loss: 1.0658), D Loss: 3.3561
+Epoch: 2, G Loss: 1.7652(Mask Loss: 1.4958, Extra Loss: 0.5388), D Loss: 2.0805
+Epoch: 3, G Loss: 1.7411(Mask Loss: 1.4137, Extra Loss: 0.6549), D Loss: 1.6169
+
+result:
+Final FID: 341.9569
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0005686372077726134
+weight_decay : 0.0005889331301002395
+warmup_proportion : 0.00010738001819172397
+batch_size : 16
+embed_dim : 512
+depth : 29
+num_heads : 8
+mlp_ratio : 4.0
+drop_rate : 0.3
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 03:33:34.972466
+--------------------End--------------------
+
+Index: 6
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:33:40.404494
+
+Epoch: 1, G Loss: 3.2939(Mask Loss: 2.3815, Extra Loss: 1.8247), D Loss: 3.2213
+Epoch: 2, G Loss: 2.2065(Mask Loss: 1.7621, Extra Loss: 0.8887), D Loss: 2.1913
+Epoch: 3, G Loss: 2.0306(Mask Loss: 1.5736, Extra Loss: 0.9140), D Loss: 1.4814
+
+result:
+Final FID: 292.3026
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00032877098232524685
+weight_decay : 9.267374901985791e-05
+warmup_proportion : 0.007983972391269918
+batch_size : 16
+embed_dim : 1024
+depth : 24
+num_heads : 8
+mlp_ratio : 8.0
+drop_rate : 0.5
+attn_drop_rate : 0.3
+drop_path_rate : 0.3
+local_up_to_layer : 10
+locality_strength : 1.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:37:14.992480
+--------------------End--------------------
+
+Index: 7
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:37:17.162100
+
+Epoch: 1, G Loss: 4.1060(Mask Loss: 2.2776, Extra Loss: 3.6569), D Loss: 3.7757
+Epoch: 2, G Loss: 4.4244(Mask Loss: 2.2959, Extra Loss: 4.2569), D Loss: 2.9655
+Epoch: 3, G Loss: 4.5683(Mask Loss: 2.1137, Extra Loss: 4.9092), D Loss: 1.2269
+
+result:
+Final FID: 442.4852
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009704373695690934
+weight_decay : 0.0006726321397797914
+warmup_proportion : 0.006454725798144087
+batch_size : 32
+embed_dim : 768
+depth : 32
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 12
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 128
+
+End time: 2025-02-07 03:39:25.420979
+--------------------End--------------------
+
+Index: 8
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:39:27.806669
+
+Epoch: 1, G Loss: 3.5494(Mask Loss: 2.2595, Extra Loss: 2.5798), D Loss: 3.0614
+Epoch: 2, G Loss: 3.3220(Mask Loss: 2.2248, Extra Loss: 2.1942), D Loss: 2.6595
+Epoch: 3, G Loss: 3.1708(Mask Loss: 2.0712, Extra Loss: 2.1992), D Loss: 2.0669
+
+result:
+Final FID: 424.6819
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 768
+depth : 32
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:42:54.835955
+--------------------End--------------------
+
+Index: 9
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:42:56.032753
+
+Epoch: 1, G Loss: 4.0122(Mask Loss: 2.3176, Extra Loss: 3.3892), D Loss: 2.0511
+Epoch: 2, G Loss: 3.5170(Mask Loss: 2.3839, Extra Loss: 2.2663), D Loss: 3.5315
+Epoch: 3, G Loss: 2.3262(Mask Loss: 1.7971, Extra Loss: 1.0582), D Loss: 2.9987
+
+result:
+Final FID: 284.6318
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00028518880177608766
+weight_decay : 8.420433246124919e-05
+warmup_proportion : 0.001207360733930443
+batch_size : 32
+embed_dim : 512
+depth : 13
+num_heads : 32
+mlp_ratio : 4.0
+drop_rate : 0.4
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 8
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:44:07.016822
+--------------------End--------------------
+
+Average Fitness: 303.6217
+Best Fitness: 205.4634
+
+Generation: 4
+Start Time : 2025-02-07 03:44:07.027792
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:44:07.549679
+
+Epoch: 1, G Loss: 3.4238(Mask Loss: 2.2438, Extra Loss: 2.3601), D Loss: 2.9191
+Epoch: 2, G Loss: 2.6602(Mask Loss: 2.0540, Extra Loss: 1.2123), D Loss: 3.7314
+Epoch: 3, G Loss: 2.3649(Mask Loss: 1.8368, Extra Loss: 1.0564), D Loss: 2.9218
+
+result:
+Final FID: 285.4914
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:46:07.205488
+--------------------End--------------------
+
+Index: 2
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:46:08.238999
+
+Epoch: 1, G Loss: 2.7505(Mask Loss: 2.2043, Extra Loss: 1.0925), D Loss: 3.4574
+Epoch: 2, G Loss: 1.7284(Mask Loss: 1.4418, Extra Loss: 0.5732), D Loss: 2.2140
+Epoch: 3, G Loss: 1.4786(Mask Loss: 1.1549, Extra Loss: 0.6474), D Loss: 1.6217
+
+result:
+Final FID: 254.8025
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0005686372077726134
+weight_decay : 0.0005889331301002395
+warmup_proportion : 0.00010738001819172397
+batch_size : 16
+embed_dim : 512
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 03:48:19.822053
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:48:20.370779
+
+Epoch: 1, G Loss: 3.5753(Mask Loss: 2.2515, Extra Loss: 2.6476), D Loss: 3.2906
+Epoch: 2, G Loss: 2.9872(Mask Loss: 2.1607, Extra Loss: 1.6530), D Loss: 3.4433
+Epoch: 3, G Loss: 2.6848(Mask Loss: 2.0855, Extra Loss: 1.1986), D Loss: 3.1816
+
+result:
+Final FID: 320.3511
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:50:18.493074
+--------------------End--------------------
+
+Index: 4
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:50:19.402626
+
+Epoch: 1, G Loss: 3.6269(Mask Loss: 2.2348, Extra Loss: 2.7843), D Loss: 2.3130
+Epoch: 2, G Loss: 2.5967(Mask Loss: 1.9224, Extra Loss: 1.3487), D Loss: 2.0538
+Epoch: 3, G Loss: 2.6069(Mask Loss: 1.8319, Extra Loss: 1.5501), D Loss: 1.7999
+
+result:
+Final FID: 242.9774
+
+Hyperparameters: 
+img_size : 128
+lr : 0.000498934971050939
+weight_decay : 0.0005029536582715161
+warmup_proportion : 0.00896111737672889
+batch_size : 16
+embed_dim : 768
+depth : 11
+num_heads : 8
+mlp_ratio : 2.0
+drop_rate : 0.5
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:51:58.692262
+--------------------End--------------------
+
+Index: 5
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:51:59.445188
+
+Epoch: 1, G Loss: 3.7504(Mask Loss: 2.2187, Extra Loss: 3.0634), D Loss: 1.6259
+Epoch: 2, G Loss: 2.6650(Mask Loss: 1.8959, Extra Loss: 1.5383), D Loss: 2.9809
+Epoch: 3, G Loss: 2.1203(Mask Loss: 1.6807, Extra Loss: 0.8792), D Loss: 1.8891
+
+result:
+Final FID: 270.2478
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00028518880177608766
+weight_decay : 8.420433246124919e-05
+warmup_proportion : 0.001207360733930443
+batch_size : 32
+embed_dim : 512
+depth : 13
+num_heads : 32
+mlp_ratio : 4.0
+drop_rate : 0.4
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:53:08.264792
+--------------------End--------------------
+
+Index: 8
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:53:09.459925
+
+Epoch: 1, G Loss: 5.0210(Mask Loss: 2.3681, Extra Loss: 5.3057), D Loss: 1.1704
+Epoch: 2, G Loss: 4.2717(Mask Loss: 2.3189, Extra Loss: 3.9056), D Loss: 1.3415
+Epoch: 3, G Loss: 3.2163(Mask Loss: 1.8680, Extra Loss: 2.6966), D Loss: 1.6357
+
+result:
+Final FID: 278.5846
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00022177675118899488
+weight_decay : 0.0005680615325034109
+warmup_proportion : 0.002770157809656829
+batch_size : 32
+embed_dim : 512
+depth : 43
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.4
+attn_drop_rate : 0.3
+drop_path_rate : 0.2
+local_up_to_layer : 6
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 5
+num_filters : 64
+
+End time: 2025-02-07 03:54:41.226974
+--------------------End--------------------
+
+Average Fitness: 271.0902
+Best Fitness: 205.4634
+
+Generation: 5
+Start Time : 2025-02-07 03:54:41.258961
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:54:42.259519
+
+Epoch: 1, G Loss: 2.8888(Mask Loss: 1.9273, Extra Loss: 1.9231), D Loss: 2.5901
+Epoch: 2, G Loss: 1.9626(Mask Loss: 1.5473, Extra Loss: 0.8307), D Loss: 1.9188
+Epoch: 3, G Loss: 1.8490(Mask Loss: 1.4798, Extra Loss: 0.7384), D Loss: 2.1431
+
+result:
+Final FID: 229.9759
+
+Hyperparameters: 
+img_size : 128
+lr : 0.000498934971050939
+weight_decay : 0.0005029536582715161
+warmup_proportion : 0.00896111737672889
+batch_size : 16
+embed_dim : 768
+depth : 11
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 03:56:23.774050
+--------------------End--------------------
+
+Index: 2
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:56:24.780588
+
+Epoch: 1, G Loss: 2.7628(Mask Loss: 2.1941, Extra Loss: 1.1373), D Loss: 3.2084
+Epoch: 2, G Loss: 1.6764(Mask Loss: 1.3951, Extra Loss: 0.5626), D Loss: 2.2145
+Epoch: 3, G Loss: 1.4418(Mask Loss: 1.1210, Extra Loss: 0.6416), D Loss: 1.6144
+
+result:
+Final FID: 268.8046
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0005686372077726134
+weight_decay : 0.0005889331301002395
+warmup_proportion : 0.00010738001819172397
+batch_size : 16
+embed_dim : 512
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 03:58:34.722235
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 03:58:35.326687
+
+Epoch: 1, G Loss: 3.5877(Mask Loss: 2.3042, Extra Loss: 2.5671), D Loss: 2.8133
+Epoch: 2, G Loss: 2.5779(Mask Loss: 1.9916, Extra Loss: 1.1725), D Loss: 3.1701
+Epoch: 3, G Loss: 2.0139(Mask Loss: 1.6079, Extra Loss: 0.8121), D Loss: 2.5357
+
+result:
+Final FID: 277.8481
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 4.0
+drop_rate : 0.4
+attn_drop_rate : 0.2
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:00:36.566840
+--------------------End--------------------
+
+Index: 5
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:00:37.238180
+
+Epoch: 1, G Loss: 3.8036(Mask Loss: 2.2371, Extra Loss: 3.1330), D Loss: 1.6464
+Epoch: 2, G Loss: 2.6684(Mask Loss: 1.8954, Extra Loss: 1.5461), D Loss: 3.0833
+Epoch: 3, G Loss: 2.0994(Mask Loss: 1.6197, Extra Loss: 0.9594), D Loss: 1.9577
+
+result:
+Final FID: 275.3451
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00028518880177608766
+weight_decay : 8.420433246124919e-05
+warmup_proportion : 0.001207360733930443
+batch_size : 32
+embed_dim : 512
+depth : 13
+num_heads : 32
+mlp_ratio : 4.0
+drop_rate : 0.4
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:01:44.752866
+--------------------End--------------------
+
+Average Fitness: 251.3213
+Best Fitness: 205.4634
+
+Generation: 6
+Start Time : 2025-02-07 04:01:44.767816
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:01:45.404297
+
+Epoch: 1, G Loss: 3.2188(Mask Loss: 2.1312, Extra Loss: 2.1752), D Loss: 3.1955
+Epoch: 2, G Loss: 2.5638(Mask Loss: 2.0320, Extra Loss: 1.0636), D Loss: 3.3684
+Epoch: 3, G Loss: 2.6366(Mask Loss: 2.1817, Extra Loss: 0.9097), D Loss: 3.3353
+
+result:
+Final FID: 309.7813
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:03:55.994109
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:03:56.575326
+
+Epoch: 1, G Loss: 3.6047(Mask Loss: 2.1824, Extra Loss: 2.8447), D Loss: 1.9754
+Epoch: 2, G Loss: 3.3113(Mask Loss: 2.1143, Extra Loss: 2.3940), D Loss: 3.2014
+Epoch: 3, G Loss: 2.4950(Mask Loss: 1.9935, Extra Loss: 1.0029), D Loss: 3.6785
+
+result:
+Final FID: 302.3789
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:06:06.760536
+--------------------End--------------------
+
+Index: 5
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:06:07.522735
+
+Epoch: 1, G Loss: 3.8788(Mask Loss: 2.2942, Extra Loss: 3.1691), D Loss: 1.6536
+Epoch: 2, G Loss: 2.7150(Mask Loss: 1.9236, Extra Loss: 1.5829), D Loss: 3.3032
+Epoch: 3, G Loss: 2.0113(Mask Loss: 1.6047, Extra Loss: 0.8131), D Loss: 2.1867
+
+result:
+Final FID: 261.4906
+
+Hyperparameters: 
+img_size : 128
+lr : 0.00028518880177608766
+weight_decay : 8.420433246124919e-05
+warmup_proportion : 0.001207360733930443
+batch_size : 32
+embed_dim : 512
+depth : 13
+num_heads : 32
+mlp_ratio : 4.0
+drop_rate : 0.4
+attn_drop_rate : 0.2
+drop_path_rate : 0.2
+local_up_to_layer : 10
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:07:16.181087
+--------------------End--------------------
+
+Index: 6
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:07:19.955911
+
+Epoch: 1, G Loss: 2.1370(Mask Loss: 1.8300, Extra Loss: 0.6140), D Loss: 2.9449
+Epoch: 2, G Loss: 1.5396(Mask Loss: 1.3533, Extra Loss: 0.3726), D Loss: 3.4676
+Epoch: 3, G Loss: 1.3502(Mask Loss: 1.0883, Extra Loss: 0.5237), D Loss: 2.0494
+
+result:
+Final FID: 232.3867
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0002431383531148099
+weight_decay : 0.0008503344853321069
+warmup_proportion : 0.004141104169568538
+batch_size : 32
+embed_dim : 1024
+depth : 17
+num_heads : 32
+mlp_ratio : 8.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 512
+decoder_depth : 8
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 32
+
+End time: 2025-02-07 04:09:24.475426
+--------------------End--------------------
+
+Average Fitness: 259.9036
+Best Fitness: 205.4634
+
+Generation: 7
+Start Time : 2025-02-07 04:09:24.496323
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:09:25.453356
+
+Epoch: 1, G Loss: 3.0141(Mask Loss: 1.9997, Extra Loss: 2.0288), D Loss: 2.7698
+Epoch: 2, G Loss: 1.9090(Mask Loss: 1.5160, Extra Loss: 0.7861), D Loss: 1.9868
+Epoch: 3, G Loss: 1.9848(Mask Loss: 1.5643, Extra Loss: 0.8409), D Loss: 2.2727
+
+result:
+Final FID: 230.7097
+
+Hyperparameters: 
+img_size : 128
+lr : 0.000498934971050939
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 768
+depth : 11
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.2
+local_up_to_layer : 8
+locality_strength : 0.5
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 16
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:11:08.043435
+--------------------End--------------------
+
+Index: 2
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:11:08.617547
+
+Epoch: 1, G Loss: 3.7279(Mask Loss: 2.3318, Extra Loss: 2.7922), D Loss: 2.7425
+Epoch: 2, G Loss: 3.0365(Mask Loss: 2.1584, Extra Loss: 1.7561), D Loss: 3.8117
+Epoch: 3, G Loss: 3.0523(Mask Loss: 2.2339, Extra Loss: 1.6367), D Loss: 3.8998
+
+result:
+Final FID: 344.2608
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 4.0
+drop_rate : 0.4
+attn_drop_rate : 0.2
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 4
+decoder_num_heads : 4
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:13:10.420385
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:13:11.156309
+
+Epoch: 1, G Loss: 3.0867(Mask Loss: 2.1405, Extra Loss: 1.8924), D Loss: 3.4159
+Epoch: 2, G Loss: 2.3244(Mask Loss: 1.9331, Extra Loss: 0.7826), D Loss: 3.1878
+Epoch: 3, G Loss: 1.6778(Mask Loss: 1.3451, Extra Loss: 0.6653), D Loss: 1.8347
+
+result:
+Final FID: 221.0810
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:15:20.205019
+--------------------End--------------------
+
+Index: 5
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:15:20.729712
+
+Epoch: 1, G Loss: 4.3352(Mask Loss: 2.3790, Extra Loss: 3.9123), D Loss: 2.1196
+Epoch: 2, G Loss: 3.0651(Mask Loss: 2.1925, Extra Loss: 1.7452), D Loss: 3.8748
+Epoch: 3, G Loss: 3.2037(Mask Loss: 2.2890, Extra Loss: 1.8294), D Loss: 3.3964
+
+result:
+Final FID: 309.3244
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:17:29.995054
+--------------------End--------------------
+
+Average Fitness: 262.0550
+Best Fitness: 205.4634
+
+Generation: 8
+Start Time : 2025-02-07 04:17:30.011001
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:17:30.622609
+
+Epoch: 1, G Loss: 3.8771(Mask Loss: 2.3041, Extra Loss: 3.1459), D Loss: 3.0035
+Epoch: 2, G Loss: 2.4648(Mask Loss: 1.9560, Extra Loss: 1.0176), D Loss: 3.9925
+Epoch: 3, G Loss: 1.6473(Mask Loss: 1.3633, Extra Loss: 0.5680), D Loss: 2.4542
+
+result:
+Final FID: 242.9437
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:19:41.032265
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:19:41.581158
+
+Epoch: 1, G Loss: 3.2068(Mask Loss: 2.1089, Extra Loss: 2.1959), D Loss: 3.1110
+Epoch: 2, G Loss: 2.8106(Mask Loss: 2.0789, Extra Loss: 1.4635), D Loss: 2.7486
+Epoch: 3, G Loss: 2.9472(Mask Loss: 2.0495, Extra Loss: 1.7955), D Loss: 1.8081
+
+result:
+Final FID: 377.5617
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:21:50.986725
+--------------------End--------------------
+
+Average Fitness: 255.5519
+Best Fitness: 205.4634
+
+Generation: 9
+Start Time : 2025-02-07 04:21:51.003668
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:21:51.599528
+
+Epoch: 1, G Loss: 3.4923(Mask Loss: 2.2020, Extra Loss: 2.5807), D Loss: 2.9033
+Epoch: 2, G Loss: 3.0303(Mask Loss: 2.0810, Extra Loss: 1.8987), D Loss: 3.2864
+Epoch: 3, G Loss: 3.0526(Mask Loss: 2.1899, Extra Loss: 1.7253), D Loss: 2.2704
+
+result:
+Final FID: 332.9341
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:24:00.227404
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:24:00.795240
+
+Epoch: 1, G Loss: 3.3264(Mask Loss: 2.1854, Extra Loss: 2.2821), D Loss: 3.3682
+Epoch: 2, G Loss: 2.3498(Mask Loss: 1.9213, Extra Loss: 0.8570), D Loss: 3.4306
+Epoch: 3, G Loss: 1.7158(Mask Loss: 1.4029, Extra Loss: 0.6259), D Loss: 2.3362
+
+result:
+Final FID: 258.5689
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:26:12.070645
+--------------------End--------------------
+
+Average Fitness: 254.1240
+Best Fitness: 205.4634
+
+Generation: 10
+Start Time : 2025-02-07 04:26:12.087591
+
+Index: 1
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:26:12.738858
+
+Epoch: 1, G Loss: 3.1508(Mask Loss: 2.1228, Extra Loss: 2.0561), D Loss: 3.5068
+Epoch: 2, G Loss: 2.0334(Mask Loss: 1.5843, Extra Loss: 0.8982), D Loss: 2.3708
+Epoch: 3, G Loss: 1.8809(Mask Loss: 1.4938, Extra Loss: 0.7740), D Loss: 1.8591
+
+result:
+Final FID: 239.8579
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:28:20.750504
+--------------------End--------------------
+
+Index: 3
+
+--------------------Start train-------------------
+Start time: 2025-02-07 04:28:21.312235
+
+Epoch: 1, G Loss: 3.4559(Mask Loss: 2.2202, Extra Loss: 2.4713), D Loss: 3.3080
+Epoch: 2, G Loss: 2.1775(Mask Loss: 1.7478, Extra Loss: 0.8594), D Loss: 3.2073
+Epoch: 3, G Loss: 1.7686(Mask Loss: 1.4163, Extra Loss: 0.7046), D Loss: 2.0262
+
+result:
+Final FID: 224.4606
+
+Hyperparameters: 
+img_size : 128
+lr : 0.0009777722407680383
+weight_decay : 0.0008787865256880026
+warmup_proportion : 0.0022877814936202393
+batch_size : 16
+embed_dim : 256
+depth : 27
+num_heads : 16
+mlp_ratio : 2.0
+drop_rate : 0.3
+attn_drop_rate : 0.1
+drop_path_rate : 0.3
+local_up_to_layer : 6
+locality_strength : 1.0
+decoder_embed_dim : 256
+decoder_depth : 12
+decoder_num_heads : 8
+filter_size : 3
+num_filters : 64
+
+End time: 2025-02-07 04:30:30.500580
+--------------------End--------------------
+
+Average Fitness: 228.6871
+Best Fitness: 205.4634
+
+Best Fitness: 205.46340942382812
+Best Hyperparameters:
+lr = 0.0009777722407680383
+warmup_proportion = 0.0022877814936202393
+weight_decay = 0.0008787865256880026
+batch_size = 16.0
+embed_dim = 256.0
+depth = 27.0
+num_heads = 16.0
+mlp_ratio = 2.0
+drop_rate = 0.3
+attn_drop_rate = 0.1
+drop_path_rate = 0.3
+local_up_to_layer = 6.0
+locality_strength = 1.0
+decoder_embed_dim = 256.0
+decoder_depth = 12.0
+decoder_num_heads = 8.0
+filter_size = 3.0
+num_filters = 64.0
+--------------------End--------------------
+

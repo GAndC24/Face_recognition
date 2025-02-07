@@ -15,10 +15,12 @@ train_mini_epochs = 3
 epochs = 1000
 
 if __name__ == '__main__':
+    # 两点交叉
     # 初始化 Hyperparameter optimizer
     Hyparam_optimizer = Hyparam_optimizer_MCVGAN(img_size=img_size, NP=NP, select_ratio=select_ratio, G=G, L=L,
                                                  Pc=Pc, Pm=Pm, train_mini_epochs=train_mini_epochs)
 
     # 获取 best Hyperparameters
     Hyparam_best = Hyparam_optimizer.get_best_hyperparameters()
+
 

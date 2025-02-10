@@ -275,7 +275,7 @@ class Hyparam_optimizer_MCVGAN():
         plt.xlabel("Generation")
         plt.ylabel("Fitness")
         plt.legend(loc='lower right')
-        plt.savefig('./fitness_images/Fitness.png')
+        plt.savefig('./fitness_images/Fitness_2point.png')
         plt.show()
 
         return x_best

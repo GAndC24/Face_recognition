@@ -22,5 +22,19 @@ if __name__ == '__main__':
 
     # 获取 best Hyperparameters
     Hyparam_best = Hyparam_optimizer.get_best_hyperparameters()
+    # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  # 使用 cuda
+    #
+    # generator = Masked_ConViT_GAN_Generator(img_size=img_size, patch_size=16, in_chans=3, num_classes=1, embed_dim=1024,depth=24,
+    #                                         num_heads=16, mlp_ratio=8., qkv_bias=False, qk_scale=None, drop_rate=0.5,
+    #                                         attn_drop_rate=0.3, drop_path_rate=0.3, local_up_to_layer=22,locality_strength=2.,
+    #                                         use_pos_embed=True, decoder_embed_dim=512, decoder_depth=8,decoder_num_heads=16,
+    #                                         norm_pix_loss=False).to(device)
+    #
+    # discriminator = Masked_ConViT_GAN_Discriminator(img_size=img_size, filter_size=7, num_filters=128).to(device)
+    #
+    # trainer = Trainer_MCVGAN(generator=generator, discriminator=discriminator, img_size=img_size,
+    #                          lr=0.0003556041369588326, warmup_proportion=8.414984455744593e-05, weight_decay=0.0005195866419309716,
+    #                          batch_size=128, epochs=train_mini_epochs,)
+    # trainer.train_HP_optim(0)
 
 

@@ -7,7 +7,7 @@ from datetime import datetime
 
 class Hyparam_optimizer_MCVGAN():
     '''MCVGAN 超参数优化器（基于遗传算法）'''
-    def __init__(self, img_size=128, NP=60, select_ratio=0.8, L=18, G=20, Pc=0.8, Pm=0.05, train_mini_epochs=20):
+    def __init__(self, img_size=128, NP=60, select_ratio=0.8, L=12, G=20, Pc=0.8, Pm=0.05, train_mini_epochs=20):
         '''
         初始化超参数优化器
         :param NP: 种群数目
@@ -22,21 +22,15 @@ class Hyparam_optimizer_MCVGAN():
         0: lr = [1e-6, 1e-3)
         1: warmup_proportion = [1e-5, 1e-2)
         2: weight_decay = [1e-6, 1e-3)
-        3: batch_size = (16, 32)
-        4: embed_dim = (256, 512, 768, 1024)
-        5: depth = [6, 48]
-        6: num_heads = (8, 16, 32)
-        7: mlp_ratio = (2, 4, 8)
-        8: drop_rate = (0.1, 0.2, 0.3, 0.4, 0.5)
-        9: attn_drop_rate = (0.1, 0.2, 0.3)
-        10: drop_path_rate = (0.1, 0.2, 0.3)
-        11: local_up_to_layer = (6, 8, 10, 12)
-        12: locality_strength = (0.5, 1.0, 1.5)
-        13: decoder_embed_dim = (256, 512, 768)
-        14: decoder_depth = (4, 8, 12)
-        15: decoder_num_heads = (4, 8, 16)
-        16: filter_size = (3, 5, 7)
-        17: num_filters = (32, 64, 128)
+        3: batch_size = base:(64, 128, 256), large:(32, 64, 128)
+        4: mlp_ratio = (2, 4, 8)
+        5: drop_rate = (0.1, 0.2, 0.3, 0.4, 0.5)
+        6: attn_drop_rate = (0.1, 0.2, 0.3)
+        7: drop_path_rate = (0.1, 0.2, 0.3)
+        8: local_up_to_layer = base:(6, 8, 10), large:(12, 14, 16, 18, 20, 22), huge:(16, 18, 20, 22, 24, 26, 28, 30)
+        9: locality_strength = (1.0, 1.5, 2.0)
+        10: filter_size = (3, 5, 7)
+        11: num_filters = (32, 64, 128)
         '''
         self.img_size = img_size
         self.NP = NP
@@ -59,21 +53,15 @@ class Hyparam_optimizer_MCVGAN():
             self.population[i, 0] = np.random.uniform(1E-6, 1E-3)  # lr
             self.population[i, 1] = np.random.uniform(1E-5, 1E-2)  # warmup_proportion
             self.population[i, 2] = np.random.uniform(1E-6, 1E-3)    # weight_decay
-            self.population[i, 3] = np.random.choice([16, 32], size=1)  # batch_size
-            self.population[i, 4] = np.random.choice([256, 512, 768, 1024], size=1)  # embed_dim
-            self.population[i, 5] = np.random.randint(6, 49)  # depth [6, 48]
-            self.population[i, 6] = np.random.choice([8, 16, 32], size=1)  # num_heads
-            self.population[i, 7] = np.random.choice([2, 4, 8], size=1)  # mlp_ratio
-            self.population[i, 8] = np.random.choice([0.1, 0.2, 0.3, 0.4, 0.5], size=1)  # drop_rate
-            self.population[i, 9] = np.random.choice([0.1, 0.2, 0.3], size=1)  # attn_drop_rate
-            self.population[i, 10] = np.random.choice([0.1, 0.2, 0.3], size=1)  # drop_path_rate
-            self.population[i, 11] = np.random.choice([6, 8, 10, 12], size=1)  # local_up_to_layer
-            self.population[i, 12] = np.random.choice([0.5, 1.0, 1.5], size=1)  # locality_strength
-            self.population[i, 13] = np.random.choice([256, 512, 768], size=1)  # decoder_embed_dim
-            self.population[i, 14] = np.random.choice([4, 8, 12], size=1)  # decoder_depth
-            self.population[i, 15] = np.random.choice([4, 8, 16], size=1)  # decoder_num_heads
-            self.population[i, 16] = np.random.choice([3, 5], size=1)  # filter_size
-            self.population[i, 17] = np.random.choice([32, 64, 128], size=1)  # num_filters
+            self.population[i, 3] = np.random.choice([64, 128, 256], size=1)  # batch_size
+            self.population[i, 4] = np.random.choice([2, 4, 8], size=1)  # mlp_ratio
+            self.population[i, 5] = np.random.choice([0.1, 0.2, 0.3, 0.4, 0.5], size=1)  # drop_rate
+            self.population[i, 6] = np.random.choice([0.1, 0.2, 0.3], size=1)  # attn_drop_rate
+            self.population[i, 7] = np.random.choice([0.1, 0.2, 0.3], size=1)  # drop_path_rate
+            self.population[i, 8] = np.random.choice([6, 8, 10], size=1)  # local_up_to_layer
+            self.population[i, 9] = np.random.choice([1.0, 1.5, 2.0], size=1)  # locality_strength
+            self.population[i, 10] = np.random.choice([3, 5], size=1)  # filter_size
+            self.population[i, 11] = np.random.choice([32, 64, 128], size=1)  # num_filters
 
     def get_best_hyperparameters(self):
         '''
@@ -118,53 +106,24 @@ class Hyparam_optimizer_MCVGAN():
                 warmup_proportion = self.population[i, 1]
                 weight_decay = self.population[i, 2]
                 batch_size = int(self.population[i, 3])
-                embed_dim = int(self.population[i, 4])
-                depth = int(self.population[i, 5])
-                num_heads = int(self.population[i, 6])
-                mlp_ratio = self.population[i, 7]
-                drop_rate = self.population[i, 8]
-                attn_drop_rate = self.population[i, 9]
-                drop_path_rate = self.population[i, 10]
-                local_up_to_layer = int(self.population[i, 11])
-                locality_strength = self.population[i, 12]
-                decoder_embed_dim = int(self.population[i, 13])
-                decoder_depth = int(self.population[i, 14])
-                decoder_num_heads = int(self.population[i, 15])
-                filter_size = int(self.population[i, 16])
-                num_filters = int(self.population[i, 17])
+                mlp_ratio = self.population[i, 4]
+                drop_rate = self.population[i, 5]
+                attn_drop_rate = self.population[i, 6]
+                drop_path_rate = self.population[i, 7]
+                local_up_to_layer = int(self.population[i, 8])
+                locality_strength = self.population[i, 9]
+                filter_size = int(self.population[i, 10])
+                num_filters = int(self.population[i, 11])
 
                 torch.cuda.empty_cache()        # 清除 GPU 显存缓存
                 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')       # 使用 cuda
-                generator = Masked_ConViT_GAN_Generator(
-                    img_size=self.img_size,
-                    embed_dim=embed_dim,
-                    depth=depth,
-                    num_heads=num_heads,
-                    mlp_ratio=mlp_ratio,
-                    drop_rate=drop_rate,
-                    attn_drop_rate=attn_drop_rate,
-                    drop_path_rate=drop_path_rate,
-                    local_up_to_layer=local_up_to_layer,
-                    locality_strength=locality_strength,
-                    decoder_embed_dim=decoder_embed_dim,
-                    decoder_depth=decoder_depth,
-                    decoder_num_heads=decoder_num_heads
-                ).to(device)
-                discriminator = Masked_ConViT_GAN_Discriminator(
-                    img_size=self.img_size,
-                    filter_size=filter_size,
-                    num_filters=num_filters
-                ).to(device)
-                trainer = Trainer_MCVGAN(
-                    generator=generator,
-                    discriminator=discriminator,
-                    lr=lr,
-                    warmup_proportion=warmup_proportion,
-                    weight_decay=weight_decay,
-                    batch_size=batch_size,
-                    img_size=self.img_size,
-                    epochs=self.train_mini_epochs
-                )
+                # base
+                generator = Masked_ConViT_GAN_Generator(img_size=self.img_size, mlp_ratio=mlp_ratio, drop_rate=drop_rate,
+                                                        attn_drop_rate=attn_drop_rate, drop_path_rate=drop_path_rate,
+                                                        local_up_to_layer=local_up_to_layer, locality_strength=locality_strength).to(device)
+                discriminator = Masked_ConViT_GAN_Discriminator(img_size=self.img_size, filter_size=filter_size, num_filters=num_filters).to(device)
+                trainer = Trainer_MCVGAN(generator=generator, discriminator=discriminator, lr=lr, warmup_proportion=warmup_proportion,
+                                        weight_decay=weight_decay, batch_size=batch_size, img_size=self.img_size, epochs=self.train_mini_epochs)
 
                 fid = trainer.train_HP_optim(i)
                 # 记录适应度值
@@ -229,20 +188,14 @@ class Hyparam_optimizer_MCVGAN():
                     f"warmup_proportion = {x_best[1]}\n"
                     f"weight_decay = {x_best[2]}\n"
                     f"batch_size = {x_best[3]}\n"
-                    f"embed_dim = {x_best[4]}\n"
-                    f"depth = {x_best[5]}\n"
-                    f"num_heads = {x_best[6]}\n"
-                    f"mlp_ratio = {x_best[7]}\n"
-                    f"drop_rate = {x_best[8]}\n"
-                    f"attn_drop_rate = {x_best[9]}\n"
-                    f"drop_path_rate = {x_best[10]}\n"
-                    f"local_up_to_layer = {x_best[11]}\n"
-                    f"locality_strength = {x_best[12]}\n"
-                    f"decoder_embed_dim = {x_best[13]}\n"
-                    f"decoder_depth = {x_best[14]}\n"
-                    f"decoder_num_heads = {x_best[15]}\n"
-                    f"filter_size = {x_best[16]}\n"
-                    f"num_filters = {x_best[17]}\n"
+                    f"mlp_ratio = {x_best[4]}\n"
+                    f"drop_rate = {x_best[5]}\n"
+                    f"attn_drop_rate = {x_best[6]}\n"
+                    f"drop_path_rate = {x_best[7]}\n"
+                    f"local_up_to_layer = {x_best[8]}\n"
+                    f"locality_strength = {x_best[9]}\n"
+                    f"filter_size = {x_best[10]}\n"
+                    f"num_filters = {x_best[11]}\n"
                     f"--------------------End--------------------\n"
             )
 
@@ -252,20 +205,14 @@ class Hyparam_optimizer_MCVGAN():
               f"warmup_proportion = {x_best[1]}\n"
               f"weight_decay = {x_best[2]}\n"
               f"batch_size = {x_best[3]}\n"
-              f"embed_dim = {x_best[4]}\n"
-              f"depth = {x_best[5]}\n"
-              f"num_heads = {x_best[6]}\n"
-              f"mlp_ratio = {x_best[7]}\n"
-              f"drop_rate = {x_best[8]}\n"
-              f"attn_drop_rate = {x_best[9]}\n"
-              f"drop_path_rate = {x_best[10]}\n"
-              f"local_up_to_layer = {x_best[11]}\n"
-              f"locality_strength = {x_best[12]}\n"
-              f"decoder_embed_dim = {x_best[13]}\n"
-              f"decoder_depth = {x_best[14]}\n"
-              f"decoder_num_heads = {x_best[15]}\n"
-              f"filter_size = {x_best[16]}\n"
-              f"num_filters = {x_best[17]}\n"
+              f"mlp_ratio = {x_best[4]}\n"
+              f"drop_rate = {x_best[5]}\n"
+              f"attn_drop_rate = {x_best[6]}\n"
+              f"drop_path_rate = {x_best[7]}\n"
+              f"local_up_to_layer = {x_best[8]}\n"
+              f"locality_strength = {x_best[9]}\n"
+              f"filter_size = {x_best[10]}\n"
+              f"num_filters = {x_best[11]}\n"
         )
 
         # 绘制适应度曲线
@@ -405,34 +352,22 @@ class Hyparam_optimizer_MCVGAN():
             elif point == 2:  # weight_decay 变异
                 self.population[selected_mutation_indices[i], point] = np.random.uniform(1E-6, 1E-3)
             elif point == 3:  # batch_size 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([16, 32], size=1)
-            elif point == 4:  # embed_dim 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([256, 512, 768, 1024], size=1)
-            elif point == 5:  # depth 变异
-                self.population[selected_mutation_indices[i], point] = np.random.randint(6, 49)
-            elif point == 6:  # num_heads 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([8, 16, 32], size=1)
-            elif point == 7:  # mlp_ratio 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([32, 64, 128], size=1)
+            elif point == 4:  # mlp_ratio 变异
                 self.population[selected_mutation_indices[i], point] = np.random.choice([2, 4, 8], size=1)
-            elif point == 8:  # drop_rate 变异
+            elif point == 5:  # drop_rate 变异
                 self.population[selected_mutation_indices[i], point] = np.random.choice([0.1, 0.2, 0.3, 0.4, 0.5], size=1)
-            elif point == 9:  # attn_drop_rate 变异
+            elif point == 6:  # attn_drop_rate 变异
                 self.population[selected_mutation_indices[i], point] = np.random.choice([0.1, 0.2, 0.3], size=1)
-            elif point == 10:  # drop_path_rate 变异
+            elif point == 7:  # drop_path_rate 变异
                 self.population[selected_mutation_indices[i], point] = np.random.choice([0.1, 0.2, 0.3], size=1)
-            elif point == 11:  # local_up_to_layer 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([6, 8, 10, 12], size=1)
-            elif point == 12:  # locality_strength 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([0.5, 1.0, 1.5], size=1)
-            elif point == 13:  # decoder_embed_dim 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([256, 512, 768], size=1)
-            elif point == 14:  # decoder_depth 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([4, 8, 12], size=1)
-            elif point == 15:  # decoder_num_heads 变异
-                self.population[selected_mutation_indices[i], point] = np.random.choice([4, 8, 16], size=1)
-            elif point == 16:  # filter_size 变异
+            elif point == 8:  # local_up_to_layer 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([6, 8, 10], size=1)
+            elif point == 9:  # locality_strength 变异
+                self.population[selected_mutation_indices[i], point] = np.random.choice([1.0, 1.5, 2.0], size=1)
+            elif point == 10:  # filter_size 变异
                 self.population[selected_mutation_indices[i], point] = np.random.choice([3, 5, 7], size=1)
-            elif point == 17:  # num_filters 变异
+            elif point == 11:  # num_filters 变异
                 self.population[selected_mutation_indices[i], point] = np.random.choice([32, 64, 128], size=1)
 
             # 更新适应度值缓存

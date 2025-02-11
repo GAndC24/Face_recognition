@@ -14,8 +14,8 @@ class Masked_ConViT_GAN_Generator(nn.Module):
         decoder_embed(Linear) - decoder_blocks(Block) - decoder_norm(LayerNorm) - decoder_pred(Linear)
 
     '''
-    def __init__(self, img_size=128, patch_size=16, in_chans=3, num_classes=1, embed_dim=1024, depth=24,
-                 num_heads=16, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
+    def __init__(self, img_size=128, patch_size=16, in_chans=3, num_classes=1, embed_dim=768, depth=12,
+                 num_heads=12, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0., norm_layer=nn.LayerNorm, local_up_to_layer=10, locality_strength=1.,
                  use_pos_embed=True, decoder_embed_dim=512, decoder_depth=8, decoder_num_heads=16, norm_pix_loss=False):
         '''
@@ -526,6 +526,46 @@ class Masked_ConViT_GAN_Discriminator(nn.Module):
         x = self.output(x)
 
         return x
+
+
+def MCVGAN_generator_base():
+    '''
+    MCVGAN generator base model configuration
+    '''
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    generator = Masked_ConViT_GAN_Generator(img_size=128, patch_size=16, in_chans=3, num_classes=1, embed_dim=768,depth=12,
+                                            num_heads=12, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0.,
+                                            attn_drop_rate=0., drop_path_rate=0., local_up_to_layer=10,locality_strength=1.,
+                                            use_pos_embed=True, decoder_embed_dim=512, decoder_depth=8,decoder_num_heads=16,
+                                            norm_pix_loss=False).to(device)
+
+    return generator
+
+def MCVGAN_generator_large():
+    '''
+    MCVGAN generator large model configuration
+    '''
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    generator = Masked_ConViT_GAN_Generator(img_size=128, patch_size=16, in_chans=3, num_classes=1, embed_dim=1024,depth=24,
+                                            num_heads=16, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0.,
+                                            attn_drop_rate=0., drop_path_rate=0., local_up_to_layer=16,locality_strength=1.,
+                                            use_pos_embed=True, decoder_embed_dim=512, decoder_depth=8,decoder_num_heads=16,
+                                            norm_pix_loss=False).to(device)
+
+    return generator
+
+def MCVGAN_generator_huge():
+    '''
+    MCVGAN generator large model configuration
+    '''
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    generator = Masked_ConViT_GAN_Generator(img_size=224, patch_size=14, in_chans=3, num_classes=1, embed_dim=1280,depth=32,
+                                            num_heads=16, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0.,
+                                            attn_drop_rate=0., drop_path_rate=0., local_up_to_layer=20,locality_strength=1.,
+                                            use_pos_embed=True, decoder_embed_dim=512, decoder_depth=8,decoder_num_heads=16,
+                                            norm_pix_loss=False).to(device)
+
+    return generator
 
 # test train
 if __name__ == '__main__':
